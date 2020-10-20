@@ -1,10 +1,16 @@
 <template>
   <div class="hello">
-    <button @click="sendMessage('ore ore')">send message</button>
+    <button @click="sendMessage">Send!</button>
+    <button @click="receiveMessage">Receive!</button>
+    <p>
+      {{ message }}
+    </p>
   </div>
 </template>
 
 <script>
+import io from "socket.io-client";
+
 export default {
   name: "HelloWorld",
   props: {
@@ -12,25 +18,28 @@ export default {
   },
   data: function () {
     return {
-      connection: null,
+      socket: {},
+      message: {},
     };
+  },
+
+  created() {
+    this.socket = io("http://localhost:3000");
+  },
+  mounted() {
+    this.socket.on("msg", (data) => {
+      console.log(data);
+    });
   },
   methods: {
-    sendMessage: function (message) {
-      console.log(this.connection);
-      this.connection.send(message);
+    sendMessage() {
+      this.socket.emit("msg2", "yourSTARA jedzi taczka");
     },
-  },
-  created() {
-    console.log("starting connection");
-    this.connection = new WebSocket("wss://echo.websocket.org");
-    this.connection.onopen = function (event) {
-      console.log(event);
-      console.log("siemaneczko ziomeczki");
-    };
-    this.connection.onmessage = function (event) {
-      console.log(event);
-    };
+    receiveMessage() {
+      this.socket.on("msg3", (recData) => {
+        this.message = recData;
+      });
+    },
   },
 };
 </script>
