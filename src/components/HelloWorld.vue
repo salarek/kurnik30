@@ -24,7 +24,7 @@ export default {
   },
 
   created() {
-    this.socket = io("http://localhost:3000");
+    this.socket = io("http://192.168.2.139:3000");
   },
   mounted() {
     this.socket.on("msg", (data) => {
@@ -37,7 +37,7 @@ export default {
     },
     receiveMessage() {
       this.socket.on("msg3", (recData) => {
-        this.message = recData;
+        this.message += recData;
       });
     },
   },
