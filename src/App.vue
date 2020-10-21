@@ -43,6 +43,8 @@
       <div v-if="gameName === 'helloWorld'">
         <HelloWorld msg="Welcome to Your Vue.js App" />
       </div>
+      <div v-if="gameName === 'blackJack'"></div>
+      <blackJack />
       <button>Wybierz</button>
     </v-main>
   </v-app>
@@ -51,11 +53,13 @@
 <script>
 import HelloWorld from "./components/HelloWorld.vue";
 import saper from "./components/saper.vue";
+import blackJack from "./components/blackJack.vue";
 export default {
   name: "App",
   components: {
     HelloWorld,
     saper,
+    blackJack,
   },
   data() {
     return {
