@@ -7,6 +7,9 @@ const Socketio = require("socket.io")(Http);
 // });
 Socketio.on("connection", (socket) => {
   socket.emit("msg", "dupa");
+  socket.on("plansza", (board) => {
+    socket.broadcast.emit("planszaBroadcast", board);
+  });
   socket.on("msg2", (data2) => {
     Socketio.emit("msg3", data2);
     console.log(data2);
