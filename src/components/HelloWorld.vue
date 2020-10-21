@@ -37,7 +37,7 @@ export default {
     },
     receiveMessage() {
       this.socket.on("msg3", (recData) => {
-        this.message = recData;
+        this.message += recData;
       });
     },
   },
