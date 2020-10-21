@@ -28,10 +28,9 @@
 
     <v-main>
       <div class="con">
+        <h1>{{blockedGame}}</h1>
         <v-btn @click="setBoard" dark large>Stworz tablice</v-btn>
-        <v-btn @click="startGame = !startGame" color="error" dark large
-          >Graj</v-btn
-        >
+        <v-btn @click="startGame = !startGame" color="error" dark large>Graj</v-btn>
 
         <div v-if="startGame">
           <div v-for="n in this.boardWidth" :key="n">
@@ -76,13 +75,14 @@ export default {
     startGame: false,
   }),
   methods: {
-    handler: function(item) {
+    handler: function (item) {
       this.startGame = !this.startGame;
       this.startGame = !this.startGame;
       item.check == "x" ? (item.check = "") : (item.check = "x");
     },
     setBoard() {
       this.socket.on("planszaBroadcast", (boardFromServer) => {
+        console.log("JESTEM WYWOLANY");
         if (boardFromServer) {
           this.board = boardFromServer;
         }
@@ -143,8 +143,8 @@ export default {
             this.board[i][j].otherBombs++;
           }
         }
-        this.socket.emit("plansza", this.board);
       }
+      this.socket.emit("plansza", this.board);
     },
     isBomb(bomb, item) {
       if (!this.blockedGame) {
@@ -424,7 +424,7 @@ export default {
   },
   created() {
     this.$vuetify.theme.dark = true;
-    this.socket = io("http://192.168.2.139:3000");
+    this.socket = io("http://192.168.0.17:3000");
   },
 };
 </script>
