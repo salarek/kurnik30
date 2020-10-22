@@ -66,18 +66,19 @@
 <script>
 import io from "socket.io-client";
 export default {
+  name: "saper",
   props: {
     source: String,
   },
   data: () => ({
     blockedGame: false,
     drawer: null,
-    boardWidth: 20,
+    boardWidth: 10,
     board: [],
     startGame: false,
   }),
   methods: {
-    handler: function (item) {
+    handler: function(item) {
       this.startGame = !this.startGame;
       this.startGame = !this.startGame;
       item.check == "x" ? (item.check = "") : (item.check = "x");
@@ -432,8 +433,8 @@ export default {
 </script>
 <style>
 .emptyDiv {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
 }
 .active {
   background-color: green;
@@ -451,8 +452,8 @@ export default {
   float: left;
   padding: 5px;
   /* margin: 1px; */
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   color: black;
   font-size: 40px;
   border-style: solid;
@@ -462,6 +463,7 @@ export default {
   background-color: blue;
 }
 .con {
+  margin: 20px;
   width: 1800px;
   height: 800px;
 }
