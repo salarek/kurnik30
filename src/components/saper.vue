@@ -28,9 +28,11 @@
 
     <v-main>
       <div class="con">
-        <h1>{{blockedGame}}</h1>
+        <h1>{{ blockedGame }}</h1>
         <v-btn @click="setBoard" dark large>Stworz tablice</v-btn>
-        <v-btn @click="startGame = !startGame" color="error" dark large>Graj</v-btn>
+        <v-btn @click="startGame = !startGame" color="error" dark large
+          >Graj</v-btn
+        >
 
         <div v-if="startGame">
           <div v-for="n in this.boardWidth" :key="n">
@@ -64,6 +66,7 @@
 <script>
 import io from "socket.io-client";
 export default {
+  name: "saper",
   props: {
     source: String,
   },
@@ -75,7 +78,7 @@ export default {
     startGame: false,
   }),
   methods: {
-    handler: function (item) {
+    handler: function(item) {
       this.startGame = !this.startGame;
       this.startGame = !this.startGame;
       item.check == "x" ? (item.check = "") : (item.check = "x");
@@ -424,14 +427,14 @@ export default {
   },
   created() {
     this.$vuetify.theme.dark = true;
-    this.socket = io("http://192.168.0.17:3000");
+    this.socket = io("http://192.168.2.139:3000");
   },
 };
 </script>
 <style>
 .emptyDiv {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
 }
 .active {
   background-color: green;
@@ -449,8 +452,8 @@ export default {
   float: left;
   padding: 5px;
   /* margin: 1px; */
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   color: black;
   font-size: 40px;
   border-style: solid;
@@ -460,6 +463,7 @@ export default {
   background-color: blue;
 }
 .con {
+  margin: 20px;
   width: 1800px;
   height: 800px;
 }

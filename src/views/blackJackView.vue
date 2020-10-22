@@ -1,10 +1,28 @@
 <template>
-  <div id="app">
-    <router-link to="/">Home</router-link>
-    <router-view />
+  <div>
+    <blackJack />
   </div>
 </template>
 
+<script>
+import blackJack from "@/components/blackJack.vue";
+
+export default {
+  name: "blackJackView",
+  components: {
+    blackJack,
+  },
+  data() {
+    return {
+      drawer: null,
+    };
+  },
+
+  created() {
+    this.$vuetify.theme.dark = true;
+  },
+};
+</script>
 <style>
 .mainContainer {
   margin: 40px;
