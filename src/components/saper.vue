@@ -7,7 +7,11 @@
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Dashboard</v-list-item-title>
+            <v-list-item-title
+              ><router-link to="/" tag="button"
+                >Home</router-link
+              ></v-list-item-title
+            >
           </v-list-item-content>
         </v-list-item>
         <v-list-item link>
@@ -29,6 +33,8 @@
     <v-main>
       <div class="con">
         <h1>{{ blockedGame }}</h1>
+        <h1>{{ $route.params.user }}</h1>
+
         <v-btn @click="setBoard" dark large>Stworz tablice</v-btn>
         <v-btn @click="startGame = !startGame" color="error" dark large
           >Graj</v-btn
@@ -67,11 +73,11 @@
 import io from "socket.io-client";
 export default {
   name: "saper",
-  props: {
-    source: String,
-  },
+
   data: () => ({
+    user: "",
     blockedGame: false,
+    currentUser: "",
     drawer: null,
     boardWidth: 10,
     board: [],
@@ -84,6 +90,10 @@ export default {
       item.check == "x" ? (item.check = "") : (item.check = "x");
     },
     setBoard() {
+      this.socket.on("queUser", (currUser) => {
+        console.log("JESTEM WYWOLANY2");
+        this.currentUser = currUser;
+      });
       this.socket.on("planszaBroadcast", (boardFromServer) => {
         console.log("JESTEM WYWOLANY");
         if (boardFromServer) {
@@ -150,7 +160,9 @@ export default {
       this.socket.emit("plansza", this.board);
     },
     isBomb(bomb, item) {
-      if (!this.blockedGame) {
+      console.log("dziwka");
+      console.log(this.currentUser);
+      if (this.currentUser == this.$route.params.user) {
         //wywala za tabilces
         this.startGame = !this.startGame;
         this.startGame = !this.startGame;
@@ -428,6 +440,8 @@ export default {
   created() {
     this.$vuetify.theme.dark = true;
     this.socket = io("http://192.168.2.139:3000");
+
+    this.socket.emit("userInfo", this.$route.params.user);
   },
 };
 </script>
