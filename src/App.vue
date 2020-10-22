@@ -43,8 +43,10 @@
       <div v-if="gameName === 'helloWorld'">
         <HelloWorld msg="Welcome to Your Vue.js App" />
       </div>
-      <div v-if="gameName === 'blackJack'"></div>
-      <blackJack />
+      <div v-if="gameName === 'blackJack'">
+        <blackJack />
+      </div>
+
       <button>Wybierz</button>
     </v-main>
   </v-app>

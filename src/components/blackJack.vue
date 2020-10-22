@@ -27,9 +27,7 @@
     </v-app-bar>
 
     <!--tutaj umieszczam to co jest widoczne w gierce  -->
-    <v-main>
-      <button @click="drawCard(1)">Dobierz karte</button>
-    </v-main>
+    <v-main> </v-main>
 
     <v-footer app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
@@ -39,34 +37,54 @@
 
 <script>
 export default {
+  name: "blackJack",
   props: {
     source: String,
   },
   data: () => ({
-    cardValue: [2, 3, 4, 5, 6, 7, 8, 9, 10],
-    playerSummary: 0,
-    oponnentSummary: 0,
-    drawer: null,
+    symbols: ["pik", "kier", "tref", "karo"],
+    cardValue: [
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "J",
+      "Q",
+      "K",
+      "A",
+    ],
+    deck: new Array(),
   }),
-  watch: {
-    Check: "endCheck",
+  created: {
+    createdeck: "createDeck",
   },
   methods: {
-    drawCard(who) {
-      let rand = Math.floor(Math.random() * 9);
-      if (who == 1) {
-        this.playerSummary += this.cardValue[rand];
-        console.log(this.playerSummary);
-      } else if (who == 2) {
-        this.oponnentSummary += this.cardValue[rand];
-        console.log(this.oponnentSummary);
-      }
-    },
-    endCheck() {
-      if (this.playerSummary > 21) {
-        console.log("suma punktow przed wyzerowaniem: " + this.playerSummary);
-        this.playerSummary = 0;
-        console.log("Punkty zostały wyzerowane!");
+    createDeck() {
+      for (let i = 0; i < this.cardValue.length; i++) {
+        for (let j = 0; j < this.symbols.length; j++) {
+          var value = parseInt(this.cardValue[i]);
+          if (
+            this.cardValue[i] == "J" ||
+            this.cardValue[i] == "Q" ||
+            this.cardValue[i] == "K"
+          ) {
+            value = 10;
+          } else if (this.cardValue[i] == "A") {
+            value = 11;
+          }
+          console.log(value);
+          var card = {
+            Symbol: this.symbol[i],
+            CardValue: this.CardValue[i],
+            Value: value,
+          };
+          this.deck.push(card);
+        }
       }
     },
   },
