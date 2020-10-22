@@ -32,7 +32,7 @@
 
     <v-main>
       <div class="con">
-        <h1>{{ blockedGame }}</h1>
+        <h1>KOLEJ GRACZA: {{ currentUser }}</h1>
         <h1>{{ $route.params.user }}</h1>
 
         <v-btn @click="setBoard" dark large>Stworz tablice</v-btn>
@@ -76,6 +76,7 @@ export default {
 
   data: () => ({
     user: "",
+    firstLoop:1,
     blockedGame: false,
     currentUser: "",
     drawer: null,
@@ -160,9 +161,13 @@ export default {
       this.socket.emit("plansza", this.board);
     },
     isBomb(bomb, item) {
+      this.firstLoop++;
       console.log("dziwka");
+      
       console.log(this.currentUser);
-      if (this.currentUser == this.$route.params.user) {
+      console.log(this.firstLoop);
+      if (this.currentUser == this.$route.params.user || this.firstLoop <3 ) {
+        this.socket.emit("QUE","xd");
         //wywala za tabilces
         this.startGame = !this.startGame;
         this.startGame = !this.startGame;
@@ -439,7 +444,7 @@ export default {
   },
   created() {
     this.$vuetify.theme.dark = true;
-    this.socket = io("http://192.168.2.139:3000");
+    this.socket = io("http://192.168.0.17:3000");
 
     this.socket.emit("userInfo", this.$route.params.user);
   },
