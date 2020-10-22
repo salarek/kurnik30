@@ -28,9 +28,11 @@
 
     <v-main>
       <div class="con">
-        <h1>{{blockedGame}}</h1>
+        <h1>{{ blockedGame }}</h1>
         <v-btn @click="setBoard" dark large>Stworz tablice</v-btn>
-        <v-btn @click="startGame = !startGame" color="error" dark large>Graj</v-btn>
+        <v-btn @click="startGame = !startGame" color="error" dark large
+          >Graj</v-btn
+        >
 
         <div v-if="startGame">
           <div v-for="n in this.boardWidth" :key="n">
@@ -70,7 +72,7 @@ export default {
   data: () => ({
     blockedGame: false,
     drawer: null,
-    boardWidth: 10,
+    boardWidth: 20,
     board: [],
     startGame: false,
   }),
@@ -424,7 +426,7 @@ export default {
   },
   created() {
     this.$vuetify.theme.dark = true;
-    this.socket = io("http://192.168.0.17:3000");
+    this.socket = io("http://192.168.2.139:3000");
   },
 };
 </script>

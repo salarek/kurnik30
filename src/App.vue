@@ -1,51 +1,61 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawer" app clipped>
+      <v-list dense>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-view-dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Dashboard</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-cog</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Settings</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+    <v-app-bar app clipped-left>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Kurnik 3.0</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
-      <h1>ELO</h1>
-      <v-text-field v-model="gameName" label="Another input"></v-text-field>
-
-      <div v-if="gameName === 'saper'">
-        <saper />
+      <div class="mainContainer">
+        <h1>Wybierz Grę!</h1>
+        <v-text-field v-model="gameName" label="Another input"></v-text-field>
+        <div class="browseGames">
+          <p>Saper</p>
+          <v-btn
+            class="button"
+            color="error"
+            dark
+            large
+            @click="selectGame('saper')"
+          >
+            Graj!
+          </v-btn>
+        </div>
+        <div class="browseGames">
+          <p>BlackJack</p>
+          <v-btn class="button" color="error" dark large> Graj! </v-btn>
+        </div>
+        <div v-if="gameName === 'saper'">
+          <saper />
+        </div>
+        <div v-if="gameName === 'helloWorld'">
+          <HelloWorld msg="Welcome to Your Vue.js App" />
+        </div>
+        <div v-if="gameName === 'blackJack'">
+          <blackJack />
+        </div>
       </div>
-      <div v-if="gameName === 'helloWorld'">
-        <HelloWorld msg="Welcome to Your Vue.js App" />
-      </div>
-      <div v-if="gameName === 'blackJack'"></div>
-      <blackJack />
-      <button>Wybierz</button>
     </v-main>
   </v-app>
 </template>
@@ -63,12 +73,42 @@ export default {
   },
   data() {
     return {
+      drawer: null,
       gameName: "",
     };
+  },
+  methods: {
+    selectGame(name) {
+      if (name == "saper") {
+        this.gameName = name;
+      }
+      if (name == "blackJack") {
+        this.gameName = name;
+      }
+    },
+  },
+  created() {
+    this.$vuetify.theme.dark = true;
   },
 };
 </script>
 <style>
+.mainContainer {
+  margin: 40px;
+}
+.browseGames {
+  margin: 20px;
+  float: left;
+  width: 250px;
+  height: 400px;
+  color: white;
+  text-align: center;
+  font-size: 40px;
+  background-color: grey;
+}
+.browseGames button {
+  margin-top: 230px;
+}
 input {
   color: red;
 }
