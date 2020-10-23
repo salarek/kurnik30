@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app clipped>
+    <!-- <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
         <v-list-item link>
           <v-list-item-action>
@@ -19,10 +19,10 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
 
     <v-app-bar app clipped-left>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon> -->
       <v-toolbar-title>Kurnik 3.0</v-toolbar-title>
     </v-app-bar>
 
@@ -41,30 +41,32 @@ export default {
   props: {
     source: String,
   },
-  data: () => ({
-    symbols: ["pik", "kier", "tref", "karo"],
-    cardValue: [
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "J",
-      "Q",
-      "K",
-      "A",
-    ],
-    deck: new Array(),
-  }),
+  data: function() {
+    return {
+      symbols: ["pik", "kier", "tref", "karo"],
+      cardValue: [
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "J",
+        "Q",
+        "K",
+        "A",
+      ],
+      deck: new Array(),
+    };
+  },
   created: {
     createdeck: "createDeck",
   },
   methods: {
-    createDeck() {
+    createDeck: function() {
       for (let i = 0; i < this.cardValue.length; i++) {
         for (let j = 0; j < this.symbols.length; j++) {
           var value = parseInt(this.cardValue[i]);
