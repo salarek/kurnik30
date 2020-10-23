@@ -13,9 +13,10 @@ const routes = [
     component: Home,
   },
   {
-    path: "/saper",
+    path: "/saper/:user",
     name: "saperView",
     component: saper,
+    props: true,
   },
   {
     path: "/blackJack",

@@ -29,17 +29,34 @@
 
       <v-main>
         <div class="mainContainer">
+          <h1>Podaj nazwę użytkownika:</h1>
+
+          <div>
+            <v-text-field
+              v-model="name"
+              label="Twoja Nazwa"
+              hide-details="auto"
+            ></v-text-field>
+          </div>
+          <br />
           <h1>Wybierz Grę!</h1>
-          <v-text-field v-model="gameName" label="Another input"></v-text-field>
+
           <div class="browseGames">
             <p>Saper</p>
-            <v-btn class="button" color="error" dark large to="/saper">
+            <v-btn
+              class="button"
+              @click="setName"
+              color="blue"
+              dark
+              large
+              :to="`/saper/${name}`"
+            >
               Graj!
             </v-btn>
           </div>
           <div class="browseGames">
             <p>BlackJack</p>
-            <v-btn class="button" color="error" dark large to="/blackJack">
+            <v-btn class="button" color="blue" dark large to="/blackJack">
               <!-- <router-link to="/blackjack">ELO</router-link>
               <router-view /> -->
               Graj!
@@ -58,9 +75,16 @@ export default {
   data() {
     return {
       drawer: null,
+      user: "",
+      name: "",
     };
   },
-
+  methods: {
+    setName() {
+      this.user = name;
+      this.$router.push({ name: "saperView", params: { data: this.user } });
+    },
+  },
   created() {
     this.$vuetify.theme.dark = true;
   },
