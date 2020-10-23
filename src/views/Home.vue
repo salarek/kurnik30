@@ -29,7 +29,7 @@
 
       <v-main>
         <div class="mainContainer">
-          <h1>Podaj nazwę użytkownika:</h1>
+          <h1>Podaj nazwe uzytkownika:</h1>
 
           <div>
             <v-text-field
@@ -39,7 +39,7 @@
             ></v-text-field>
           </div>
           <br />
-          <h1>Wybierz Grę!</h1>
+          <h1>Wybierz Gre!</h1>
 
           <div class="browseGames">
             <p>Saper</p>
@@ -92,9 +92,11 @@ export default {
 </script>
 <style>
 .mainContainer {
+  font-family: "Comic Neue", cursive;
   margin: 40px;
 }
 .browseGames {
+  font-family: "Comic Neue", cursive;
   margin: 20px;
   float: left;
   width: 250px;
@@ -105,9 +107,11 @@ export default {
   background-color: grey;
 }
 .browseGames button {
+  font-family: "Comic Neue", cursive;
   margin-top: 430px;
 }
 input {
+  font-family: "Comic Neue", cursive;
   color: red;
 }
 </style>
