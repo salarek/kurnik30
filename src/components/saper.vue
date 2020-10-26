@@ -517,14 +517,7 @@ export default {
 .dashBoard {
   width: 100%;
 }
-.punktacja {
-  width: 100%;
-  height: 40%;
-  background-color: grey;
-  font-size: 25px;
-  float: left;
-  overflow-y: scroll;
-}
+
 .emptyDiv2 {
   width: 50px;
   height: 50px;
@@ -621,6 +614,14 @@ export default {
   padding: 20px;
   height: 0px;
   font-size: 100%;
+}
+.punktacja {
+  width: 100%;
+  height: 40%;
+  background-color: grey;
+  font-size: 25px;
+  float: left;
+  overflow-y: scroll;
 }
 ::-webkit-scrollbar {
   width: 15px;
