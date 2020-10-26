@@ -1,6 +1,5 @@
 <template>
   <v-app id="inspire">
-    <h1>hejka</h1>
     <v-navigation-drawer width="25%" v-model="drawer" app clipped>
       <div class="punktacja"><center>Punktacja</center></div>
       <div id="czat" class="czat">
@@ -35,6 +34,47 @@
     </v-app-bar>
 
     <v-main>
+      <v-row style="color: green; width: auto; float: right" justify="center">
+        <v-dialog v-model="dialog" scrollable max-width="400px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-hover>
+              <v-btn color="blue" dark v-bind="attrs" v-on="on">
+                <v-icon>mdi-cog</v-icon>
+              </v-btn>
+            </v-hover>
+          </template>
+          <v-card>
+            <v-card-title>Wybierz poziom trudności</v-card-title>
+            <v-divider></v-divider>
+            <v-card-text style="height: 220px">
+              <v-radio-group v-model="difficulty2" column>
+                <v-radio label="Latwy" value="30"></v-radio>
+                <v-radio label="Sredni" value="20"></v-radio>
+                <v-radio label="Trudny" value="10"></v-radio>
+                <v-radio label="Bardzo trudny" value="5"></v-radio>
+                <v-radio label="Niemozliwy" value="3"></v-radio>
+              </v-radio-group>
+            </v-card-text>
+            <v-divider></v-divider>
+
+            <v-text-field
+              v-model.number="boardWidth2"
+              label="Podaj rozmiar planszy: <od 4 do 30>"
+              required
+            ></v-text-field>
+
+            <v-card-actions>
+              <v-btn color="blue darken-1" text @click="dialog = false">
+                Close
+              </v-btn>
+              <v-btn color="blue darken-1" text @click="saveSettings">
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+
       <div class="gameBoard">
         <center>
           <div class="dashBoard">
@@ -43,7 +83,7 @@
                 style="
                   color: white;
                   width: auto;
-
+                  margin-top: 25px;
                   display: inline-block;
                 "
               >
@@ -61,17 +101,28 @@
               </div>
             </h1>
 
-            <v-btn @click="setBoard" color="blue" dark large
+            <v-btn
+              style="
+                color: white;
+                width: auto;
+
+                display: inline-block;
+              "
+              @click="setBoard"
+              color="blue"
+              dark
+              large
               >Rozpocznij gre!</v-btn
             >
           </div>
+
           <br />
           <br />
           <div class="board">
             <div v-if="startGame">
               <div
                 style="display: inline-block"
-                v-for="n in this.boardWidth"
+                v-for="n in boardWidth"
                 :key="n"
               >
                 <div
@@ -97,7 +148,7 @@
                 ></div>
               </div>
             </div>
-            <div v-if="!startGame">SAPER</div>
+            <div v-if="!startGame"></div>
           </div>
         </center>
       </div>
@@ -115,6 +166,9 @@ export default {
   name: "saper",
 
   data: () => ({
+    difficulty: 9,
+    difficulty2: "",
+    dialog: false,
     msg: "",
     user: "",
     firstLoop: 1,
@@ -122,6 +176,7 @@ export default {
     currentUser: "",
     drawer: null,
     boardWidth: 20,
+    boardWidth2: 20,
     board: [],
     startGame: false,
     messages: [],
@@ -135,6 +190,21 @@ export default {
     });
   },
   methods: {
+    saveSettings() {
+      if (this.boardWidth2 > 40) {
+        this.boardWidth2 = 40;
+        //alert("za duza tablica");
+      }
+      if (this.boardWidth2 < 4) {
+        this.boardWidth2 = 4;
+        //alert("za duza tablica");
+      }
+
+      this.boardWidth = this.boardWidth2;
+      this.dialog = false;
+      this.difficulty = this.difficulty2;
+      this.startGame = !this.startGame;
+    },
     sendMessage() {
       console.log(this.msg);
       let formMSG = {
@@ -150,6 +220,8 @@ export default {
       item.check == "x" ? (item.check = "") : (item.check = "x");
     },
     setBoard() {
+      console.log(this.boardWidth);
+      console.log(this.difficulty);
       this.startGame = !this.startGame;
       this.socket.on("queUser", (currUser) => {
         console.log("JESTEM WYWOLANY2");
@@ -168,7 +240,7 @@ export default {
           this.board[i][j] = {
             x: i,
             y: j,
-            bomb: Math.floor(Math.random() * 9),
+            bomb: Math.floor(Math.random() * this.difficulty),
             id: Math.random(),
             clicked: false,
             bombActive: false,
@@ -533,8 +605,8 @@ export default {
 .noactive {
   background-color: rgb(66, 66, 66);
   border: solid;
-  font-size: 22px !important;
-  padding: 5px !important;
+  font-size: 25px !important;
+  padding-right: 35px !important;
   width: 80px !important;
   height: 80px !important;
 }
@@ -544,7 +616,7 @@ export default {
 .smalldivs {
   font-size: 25px !important;
   display: flex !important;
-  padding: 4px !important;
+  padding-left: 15px !important;
   border: solid;
   background-color: rgb(66, 66, 66);
   width: 50px !important;
@@ -563,7 +635,6 @@ export default {
 .divs {
   /* background-color: white; */
   clear: both;
-  display: flex !important;
 
   /* margin: 1px; */
   color: black;
@@ -592,7 +663,7 @@ export default {
   width: 100%;
   height: 50%;
   background-color: rgb(160, 160, 160);
-  font-size: 30px;
+  font-size: 20px;
   overflow-y: scroll;
 }
 .czatInput {
@@ -601,11 +672,10 @@ export default {
   text-align: center;
   float: left;
   width: 100%;
-  height: 10%;
+  height: 15%;
   background-color: rgb(58, 58, 58);
 }
 .inputGame {
-  position: relative;
   color: black !important;
   margin-right: 20px;
   background: rgb(173, 173, 173);
@@ -617,9 +687,9 @@ export default {
 }
 .punktacja {
   width: 100%;
-  height: 40%;
+  height: 35%;
   background-color: grey;
-  font-size: 25px;
+  font-size: 20px;
   float: left;
   overflow-y: scroll;
 }
