@@ -35,48 +35,62 @@
 
     <v-main>
       <div class="gameBoard">
-        <h1>
-          <div style="color: white; margin-right: 12px">KOLEJ GRACZA:</div>
-          <div style="color: green">{{ currentUser }}</div>
-        </h1>
-        <br />
-        <v-btn @click="setBoard" dark large>Stworz tablice</v-btn>
-        <v-btn @click="startGame = !startGame" color="blue" dark large
-          >Graj</v-btn
-        >
-        <br />
-        <br />
-        <div class="board">
-          <div v-if="startGame">
+        <center>
+          <h1>
             <div
-              style="display: inline-block"
-              v-for="n in this.boardWidth"
-              :key="n"
+              style="
+                color: white;
+                width: auto;
+
+                display: inline-block;
+              "
             >
-              <div
-                :class="{
-                  active: item.clicked,
-                  noactive: !item.clicked && boardWidth < 11,
-                  bombactive: item.bombActive,
-                  smalldivs: boardWidth >= 11,
-                }"
-                @click="isBomb(item.bomb, item)"
-                @contextmenu.prevent="handler(item)"
-                class="divs"
-                v-for="item in board[n - 1]"
-                :key="item.id"
-              >
-                <center>{{ item.showOtherBombs }}{{ item.check }}</center>
+              KOLEJ GRACZA:
+              <div style="color: green; width: auto; float: right">
+                {{ currentUser }}
               </div>
+            </div>
+          </h1>
+
+          <v-btn @click="setBoard" dark large>Stworz tablice</v-btn>
+          <v-btn @click="startGame = !startGame" color="blue" dark large
+            >Graj</v-btn
+          >
+          <br />
+          <br />
+          <div class="board">
+            <div v-if="startGame">
               <div
-                :class="{
-                  emptyDiv2: boardWidth >= 11,
-                  emptyDiv: boardWidth < 11,
-                }"
-              ></div>
+                style="display: inline-block"
+                v-for="n in this.boardWidth"
+                :key="n"
+              >
+                <div
+                  :class="{
+                    active: item.clicked,
+                    noactive: !item.clicked && boardWidth < 11,
+                    bombactive: item.bombActive,
+                    smalldivs: boardWidth >= 11,
+                  }"
+                  @click="isBomb(item.bomb, item)"
+                  @contextmenu.prevent="handler(item)"
+                  class="divs"
+                  v-for="item in board[n - 1]"
+                  :key="item.id"
+                >
+                  <center>{{ item.showOtherBombs }}{{ item.check }}</center>
+                </div>
+                <div
+                  :class="{
+                    emptyDiv2: boardWidth >= 11,
+                    emptyDiv: boardWidth < 11,
+                  }"
+                ></div>
+              </div>
             </div>
           </div>
-        </div>
+          <div class="punktacja">punkty</div>
+        </center>
       </div>
     </v-main>
 
@@ -98,7 +112,7 @@ export default {
     blockedGame: false,
     currentUser: "",
     drawer: null,
-    boardWidth: 30,
+    boardWidth: 20,
     board: [],
     startGame: false,
     messages: [],
@@ -121,7 +135,7 @@ export default {
 
       this.socket.emit("msg", formMSG);
     },
-    handler: function(item) {
+    handler: function (item) {
       this.startGame = !this.startGame;
       this.startGame = !this.startGame;
       item.check == "x" ? (item.check = "") : (item.check = "x");
@@ -490,6 +504,13 @@ export default {
 };
 </script>
 <style>
+.punktacja {
+  margin-left: 10px;
+  width: 20%;
+  height: 500px;
+  background-color: red;
+  float: left;
+}
 .emptyDiv2 {
   width: 50px;
   height: 50px;
@@ -523,8 +544,9 @@ export default {
   height: 50px !important;
 }
 .board {
-  width: 98%;
-  height: 98%;
+  float: left;
+  width: 78%;
+  height: 78%;
   max-width: 98%;
   overflow-x: scroll;
   overflow-y: scroll;
