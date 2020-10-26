@@ -523,9 +523,9 @@ export default {
   height: 50px !important;
 }
 .board {
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
+  width: 70%;
+  height: 70%;
+  max-width: 70%;
   overflow-x: scroll;
   overflow-y: scroll;
   overflow: auto;
