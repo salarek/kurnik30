@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <h1>hejka</h1>
-    <v-navigation-drawer width="600px" v-model="drawer" app clipped>
+    <v-navigation-drawer width="25%" v-model="drawer" app clipped>
       <div id="czat" class="czat">
         <center>Siemaneczko!</center>
         <div v-for="msgg in messages" :key="msgg">
