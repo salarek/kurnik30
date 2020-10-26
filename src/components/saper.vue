@@ -116,7 +116,7 @@ export default {
 
       this.socket.emit("msg", formMSG);
     },
-    handler: function (item) {
+    handler: function(item) {
       this.startGame = !this.startGame;
       this.startGame = !this.startGame;
       item.check == "x" ? (item.check = "") : (item.check = "x");
@@ -478,7 +478,7 @@ export default {
   },
   created() {
     this.$vuetify.theme.dark = true;
-    this.socket = io("http://192.168.2.139:3000");
+    this.socket = io("http://localhost:3000");
 
     this.socket.emit("userInfo", this.$route.params.user);
   },
