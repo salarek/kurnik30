@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <h1>hejka</h1>
-    <v-navigation-drawer width="600px" v-model="drawer" app clipped>
+    <v-navigation-drawer width="25%" v-model="drawer" app clipped>
       <div id="czat" class="czat">
         <center>Siemaneczko!</center>
         <div v-for="msgg in messages" :key="msgg">
@@ -478,7 +478,7 @@ export default {
   },
   created() {
     this.$vuetify.theme.dark = true;
-    this.socket = io("http://192.168.2.139:3000");
+    this.socket = io("http://localhost:3000");
 
     this.socket.emit("userInfo", this.$route.params.user);
   },
