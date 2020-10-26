@@ -48,7 +48,11 @@
         <br />
         <div class="board">
           <div v-if="startGame">
-            <div v-for="n in this.boardWidth" :key="n">
+            <div
+              style="display: inline-block"
+              v-for="n in this.boardWidth"
+              :key="n"
+            >
               <div
                 :class="{
                   active: item.clicked,
@@ -487,8 +491,8 @@ export default {
 </script>
 <style>
 .emptyDiv2 {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
 }
 .emptyDiv {
   width: 80px;
@@ -511,17 +515,26 @@ export default {
 }
 .smalldivs {
   font-size: 25px !important;
-
+  display: flex !important;
   padding: 4px !important;
   border: solid;
   background-color: rgb(66, 66, 66);
-  width: 40px !important;
-  height: 40px !important;
+  width: 50px !important;
+  height: 50px !important;
 }
-
+.board {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  overflow: auto;
+  white-space: nowrap;
+}
 .divs {
   /* background-color: white; */
-  float: left;
+  clear: both;
+  display: flex !important;
 
   /* margin: 1px; */
   color: black;
@@ -536,13 +549,10 @@ export default {
 .gameBoard {
   font-family: "Comic Neue", cursive;
   margin-left: 140px;
-  width: 1800px !important;
-  height: 800px;
+  width: auto !important;
+  height: auto;
 }
-.board {
-  width: 70%;
-  height: 70%;
-}
+
 .czat {
   font-family: "Comic Neue", cursive;
 
@@ -584,6 +594,10 @@ export default {
   background-color: #000000;
 }
 ::-webkit-scrollbar-thumb:vertical {
+  height: 30px;
+  background-color: #519aec;
+}
+::-webkit-scrollbar-thumb:horizontal {
   height: 30px;
   background-color: #519aec;
 }
