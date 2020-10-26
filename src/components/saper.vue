@@ -2,6 +2,7 @@
   <v-app id="inspire">
     <h1>hejka</h1>
     <v-navigation-drawer width="25%" v-model="drawer" app clipped>
+      <div class="punktacja"><center>Punktacja</center></div>
       <div id="czat" class="czat">
         <center>Siemaneczko!</center>
         <div v-for="msgg in messages" :key="msgg">
@@ -36,26 +37,34 @@
     <v-main>
       <div class="gameBoard">
         <center>
-          <h1>
-            <div
-              style="
-                color: white;
-                width: auto;
+          <div class="dashBoard">
+            <h1>
+              <div
+                style="
+                  color: white;
+                  width: auto;
 
-                display: inline-block;
-              "
-            >
-              KOLEJ GRACZA:
-              <div style="color: green; width: auto; float: right">
-                {{ currentUser }}
+                  display: inline-block;
+                "
+              >
+                KOLEJ GRACZA:
+                <div
+                  style="
+                    color: green;
+                    width: auto;
+                    float: right;
+                    margin-left: 10px;
+                  "
+                >
+                  {{ currentUser }}
+                </div>
               </div>
-            </div>
-          </h1>
+            </h1>
 
-          <v-btn @click="setBoard" dark large>Stworz tablice</v-btn>
-          <v-btn @click="startGame = !startGame" color="blue" dark large
-            >Graj</v-btn
-          >
+            <v-btn @click="setBoard" color="blue" dark large
+              >Rozpocznij gre!</v-btn
+            >
+          </div>
           <br />
           <br />
           <div class="board">
@@ -88,8 +97,8 @@
                 ></div>
               </div>
             </div>
+            <div v-if="!startGame">SAPER</div>
           </div>
-          <div class="punktacja">punkty</div>
         </center>
       </div>
     </v-main>
@@ -141,6 +150,7 @@ export default {
       item.check == "x" ? (item.check = "") : (item.check = "x");
     },
     setBoard() {
+      this.startGame = !this.startGame;
       this.socket.on("queUser", (currUser) => {
         console.log("JESTEM WYWOLANY2");
         this.currentUser = currUser;
@@ -504,12 +514,16 @@ export default {
 };
 </script>
 <style>
+.dashBoard {
+  width: 100%;
+}
 .punktacja {
-  margin-left: 10px;
-  width: 20%;
-  height: 500px;
-  background-color: red;
+  width: 100%;
+  height: 40%;
+  background-color: grey;
+  font-size: 25px;
   float: left;
+  overflow-y: scroll;
 }
 .emptyDiv2 {
   width: 50px;
@@ -545,8 +559,8 @@ export default {
 }
 .board {
   float: left;
-  width: 78%;
-  height: 78%;
+  width: 98%;
+  height: 98%;
   max-width: 98%;
   overflow-x: scroll;
   overflow-y: scroll;
@@ -583,7 +597,7 @@ export default {
   float: left;
   color: black;
   width: 100%;
-  height: 90%;
+  height: 50%;
   background-color: rgb(160, 160, 160);
   font-size: 30px;
   overflow-y: scroll;
