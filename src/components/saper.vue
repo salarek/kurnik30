@@ -46,30 +46,31 @@
         >
         <br />
         <br />
-
-        <div v-if="startGame">
-          <div v-for="n in this.boardWidth" :key="n">
-            <div
-              :class="{
-                active: item.clicked,
-                noactive: !item.clicked && boardWidth < 11,
-                bombactive: item.bombActive,
-                smalldivs: boardWidth >= 11,
-              }"
-              @click="isBomb(item.bomb, item)"
-              @contextmenu.prevent="handler(item)"
-              class="divs"
-              v-for="item in board[n - 1]"
-              :key="item.id"
-            >
-              <center>{{ item.showOtherBombs }}{{ item.check }}</center>
+        <div class="board">
+          <div v-if="startGame">
+            <div v-for="n in this.boardWidth" :key="n">
+              <div
+                :class="{
+                  active: item.clicked,
+                  noactive: !item.clicked && boardWidth < 11,
+                  bombactive: item.bombActive,
+                  smalldivs: boardWidth >= 11,
+                }"
+                @click="isBomb(item.bomb, item)"
+                @contextmenu.prevent="handler(item)"
+                class="divs"
+                v-for="item in board[n - 1]"
+                :key="item.id"
+              >
+                <center>{{ item.showOtherBombs }}{{ item.check }}</center>
+              </div>
+              <div
+                :class="{
+                  emptyDiv2: boardWidth >= 11,
+                  emptyDiv: boardWidth < 11,
+                }"
+              ></div>
             </div>
-            <div
-              :class="{
-                emptyDiv2: boardWidth >= 11,
-                emptyDiv: boardWidth < 11,
-              }"
-            ></div>
           </div>
         </div>
       </div>
@@ -116,7 +117,7 @@ export default {
 
       this.socket.emit("msg", formMSG);
     },
-    handler: function(item) {
+    handler: function (item) {
       this.startGame = !this.startGame;
       this.startGame = !this.startGame;
       item.check == "x" ? (item.check = "") : (item.check = "x");
@@ -486,8 +487,8 @@ export default {
 </script>
 <style>
 .emptyDiv2 {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 }
 .emptyDiv {
   width: 80px;
@@ -514,8 +515,8 @@ export default {
   padding: 4px !important;
   border: solid;
   background-color: rgb(66, 66, 66);
-  width: 50px !important;
-  height: 50px !important;
+  width: 40px !important;
+  height: 40px !important;
 }
 
 .divs {
@@ -537,6 +538,10 @@ export default {
   margin-left: 140px;
   width: 1800px !important;
   height: 800px;
+}
+.board {
+  width: 70%;
+  height: 70%;
 }
 .czat {
   font-family: "Comic Neue", cursive;
