@@ -121,7 +121,7 @@ export default {
 
       this.socket.emit("msg", formMSG);
     },
-    handler: function (item) {
+    handler: function(item) {
       this.startGame = !this.startGame;
       this.startGame = !this.startGame;
       item.check == "x" ? (item.check = "") : (item.check = "x");
@@ -523,9 +523,9 @@ export default {
   height: 50px !important;
 }
 .board {
-  width: 70%;
-  height: 70%;
-  max-width: 70%;
+  width: 98%;
+  height: 98%;
+  max-width: 98%;
   overflow-x: scroll;
   overflow-y: scroll;
   overflow: auto;
@@ -548,7 +548,7 @@ export default {
 
 .gameBoard {
   font-family: "Comic Neue", cursive;
-  margin-left: 140px;
+  margin-left: 2%;
   width: auto !important;
   height: auto;
 }
