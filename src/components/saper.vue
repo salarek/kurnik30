@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
-    <h1>hejka</h1>
-    <v-navigation-drawer width="600px" v-model="drawer" app clipped>
+    <v-navigation-drawer width="25%" v-model="drawer" app clipped>
+      <div class="punktacja"><center>Punktacja</center></div>
       <div id="czat" class="czat">
         <center>Siemaneczko!</center>
         <div v-for="msgg in messages" :key="msgg">
@@ -34,44 +34,123 @@
     </v-app-bar>
 
     <v-main>
-      <div class="gameBoard">
-        <h1>
-          <div style="color: white; margin-right: 12px">KOLEJ GRACZA:</div>
-          <div style="color: green">{{ currentUser }}</div>
-        </h1>
-        <br />
-        <v-btn @click="setBoard" dark large>Stworz tablice</v-btn>
-        <v-btn @click="startGame = !startGame" color="blue" dark large
-          >Graj</v-btn
-        >
-        <br />
-        <br />
+      <v-row style="color: green; width: auto; float: right" justify="center">
+        <v-dialog v-model="dialog" scrollable max-width="400px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-hover>
+              <v-btn color="blue" dark v-bind="attrs" v-on="on">
+                <v-icon>mdi-cog</v-icon>
+              </v-btn>
+            </v-hover>
+          </template>
+          <v-card>
+            <v-card-title>Wybierz poziom trudności</v-card-title>
+            <v-divider></v-divider>
+            <v-card-text style="height: 220px">
+              <v-radio-group v-model="difficulty2" column>
+                <v-radio label="Latwy" value="30"></v-radio>
+                <v-radio label="Sredni" value="20"></v-radio>
+                <v-radio label="Trudny" value="10"></v-radio>
+                <v-radio label="Bardzo trudny" value="5"></v-radio>
+                <v-radio label="Niemozliwy" value="3"></v-radio>
+              </v-radio-group>
+            </v-card-text>
+            <v-divider></v-divider>
 
-        <div v-if="startGame">
-          <div v-for="n in this.boardWidth" :key="n">
-            <div
-              :class="{
-                active: item.clicked,
-                noactive: !item.clicked && boardWidth < 11,
-                bombactive: item.bombActive,
-                smalldivs: boardWidth >= 11,
-              }"
-              @click="isBomb(item.bomb, item)"
-              @contextmenu.prevent="handler(item)"
-              class="divs"
-              v-for="item in board[n - 1]"
-              :key="item.id"
+            <v-text-field
+              v-model.number="boardWidth2"
+              label="Podaj rozmiar planszy: <od 4 do 30>"
+              required
+            ></v-text-field>
+
+            <v-card-actions>
+              <v-btn color="blue darken-1" text @click="dialog = false">
+                Close
+              </v-btn>
+              <v-btn color="blue darken-1" text @click="saveSettings">
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+
+      <div class="gameBoard">
+        <center>
+          <div class="dashBoard">
+            <h1>
+              <div
+                style="
+                  color: white;
+                  width: auto;
+                  margin-top: 25px;
+                  display: inline-block;
+                "
+              >
+                KOLEJ GRACZA:
+                <div
+                  style="
+                    color: green;
+                    width: auto;
+                    float: right;
+                    margin-left: 10px;
+                  "
+                >
+                  {{ currentUser }}
+                </div>
+              </div>
+            </h1>
+
+            <v-btn
+              style="
+                color: white;
+                width: auto;
+
+                display: inline-block;
+              "
+              @click="setBoard"
+              color="blue"
+              dark
+              large
+              >Rozpocznij gre!</v-btn
             >
-              <center>{{ item.showOtherBombs }}{{ item.check }}</center>
-            </div>
-            <div
-              :class="{
-                emptyDiv2: boardWidth >= 11,
-                emptyDiv: boardWidth < 11,
-              }"
-            ></div>
           </div>
-        </div>
+
+          <br />
+          <br />
+          <div class="board">
+            <div v-if="startGame">
+              <div
+                style="display: inline-block"
+                v-for="n in boardWidth"
+                :key="n"
+              >
+                <div
+                  :class="{
+                    active: item.clicked,
+                    noactive: !item.clicked && boardWidth < 11,
+                    bombactive: item.bombActive,
+                    smalldivs: boardWidth >= 11,
+                  }"
+                  @click="isBomb(item.bomb, item)"
+                  @contextmenu.prevent="handler(item)"
+                  class="divs"
+                  v-for="item in board[n - 1]"
+                  :key="item.id"
+                >
+                  <center>{{ item.showOtherBombs }}{{ item.check }}</center>
+                </div>
+                <div
+                  :class="{
+                    emptyDiv2: boardWidth >= 11,
+                    emptyDiv: boardWidth < 11,
+                  }"
+                ></div>
+              </div>
+            </div>
+            <div v-if="!startGame"></div>
+          </div>
+        </center>
       </div>
     </v-main>
 
@@ -87,13 +166,17 @@ export default {
   name: "saper",
 
   data: () => ({
+    difficulty: 9,
+    difficulty2: "",
+    dialog: false,
     msg: "",
     user: "",
     firstLoop: 1,
     blockedGame: false,
     currentUser: "",
     drawer: null,
-    boardWidth: 30,
+    boardWidth: 20,
+    boardWidth2: 20,
     board: [],
     startGame: false,
     messages: [],
@@ -107,6 +190,21 @@ export default {
     });
   },
   methods: {
+    saveSettings() {
+      if (this.boardWidth2 > 40) {
+        this.boardWidth2 = 40;
+        //alert("za duza tablica");
+      }
+      if (this.boardWidth2 < 4) {
+        this.boardWidth2 = 4;
+        //alert("za duza tablica");
+      }
+
+      this.boardWidth = this.boardWidth2;
+      this.dialog = false;
+      this.difficulty = this.difficulty2;
+      this.startGame = !this.startGame;
+    },
     sendMessage() {
       console.log(this.msg);
       let formMSG = {
@@ -122,6 +220,9 @@ export default {
       item.check == "x" ? (item.check = "") : (item.check = "x");
     },
     setBoard() {
+      console.log(this.boardWidth);
+      console.log(this.difficulty);
+      this.startGame = !this.startGame;
       this.socket.on("queUser", (currUser) => {
         console.log("JESTEM WYWOLANY2");
         this.currentUser = currUser;
@@ -139,7 +240,7 @@ export default {
           this.board[i][j] = {
             x: i,
             y: j,
-            bomb: Math.floor(Math.random() * 9),
+            bomb: Math.floor(Math.random() * this.difficulty),
             id: Math.random(),
             clicked: false,
             bombActive: false,
@@ -485,6 +586,10 @@ export default {
 };
 </script>
 <style>
+.dashBoard {
+  width: 100%;
+}
+
 .emptyDiv2 {
   width: 50px;
   height: 50px;
@@ -500,8 +605,8 @@ export default {
 .noactive {
   background-color: rgb(66, 66, 66);
   border: solid;
-  font-size: 22px !important;
-  padding: 5px !important;
+  font-size: 25px !important;
+  padding-right: 35px !important;
   width: 80px !important;
   height: 80px !important;
 }
@@ -510,17 +615,26 @@ export default {
 }
 .smalldivs {
   font-size: 25px !important;
-
-  padding: 4px !important;
+  display: flex !important;
+  padding-left: 15px !important;
   border: solid;
   background-color: rgb(66, 66, 66);
   width: 50px !important;
   height: 50px !important;
 }
-
+.board {
+  float: left;
+  width: 98%;
+  height: 98%;
+  max-width: 98%;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  overflow: auto;
+  white-space: nowrap;
+}
 .divs {
   /* background-color: white; */
-  float: left;
+  clear: both;
 
   /* margin: 1px; */
   color: black;
@@ -534,10 +648,11 @@ export default {
 
 .gameBoard {
   font-family: "Comic Neue", cursive;
-  margin-left: 140px;
-  width: 1800px !important;
-  height: 800px;
+  margin-left: 2%;
+  width: auto !important;
+  height: auto;
 }
+
 .czat {
   font-family: "Comic Neue", cursive;
 
@@ -546,9 +661,9 @@ export default {
   float: left;
   color: black;
   width: 100%;
-  height: 90%;
+  height: 50%;
   background-color: rgb(160, 160, 160);
-  font-size: 30px;
+  font-size: 20px;
   overflow-y: scroll;
 }
 .czatInput {
@@ -557,11 +672,10 @@ export default {
   text-align: center;
   float: left;
   width: 100%;
-  height: 10%;
+  height: 15%;
   background-color: rgb(58, 58, 58);
 }
 .inputGame {
-  position: relative;
   color: black !important;
   margin-right: 20px;
   background: rgb(173, 173, 173);
@@ -571,6 +685,14 @@ export default {
   height: 0px;
   font-size: 100%;
 }
+.punktacja {
+  width: 100%;
+  height: 35%;
+  background-color: grey;
+  font-size: 20px;
+  float: left;
+  overflow-y: scroll;
+}
 ::-webkit-scrollbar {
   width: 15px;
   height: 15px;
@@ -579,6 +701,10 @@ export default {
   background-color: #000000;
 }
 ::-webkit-scrollbar-thumb:vertical {
+  height: 30px;
+  background-color: #519aec;
+}
+::-webkit-scrollbar-thumb:horizontal {
   height: 30px;
   background-color: #519aec;
 }
