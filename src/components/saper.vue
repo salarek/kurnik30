@@ -478,7 +478,7 @@ export default {
   },
   created() {
     this.$vuetify.theme.dark = true;
-    this.socket = io("http://192.168.2.139:3000");
+    this.socket = io("http://localhost:3000");
 
     this.socket.emit("userInfo", this.$route.params.user);
   },
