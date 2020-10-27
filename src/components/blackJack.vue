@@ -47,8 +47,9 @@
           </div>
         </div>
         <div class="gamePanel">
-          <button>Draw</button>
-          <button>Check</button>
+          <button @click="startNewGame()">Start</button>
+          <button @click="drawCard()">Draw</button>
+          <button @click="check()">Check</button>
         </div>
       </div>
     </v-main>
@@ -65,18 +66,30 @@ export default {
   props: {
     source: String,
   },
-  data: function () {
+  data: () => {
     return {
-      playerPoints: 19,
-      krupierPoints: 15,
+      playerPoints: 0,
+      krupierPoints: 0,
       deck: [],
+      playerHand: [],
+      krupierHand: [],
+      playedCard: [], //czy karta była juz zagrana
     };
   },
-  created: {
-    create: "createDeck() ",
+  beforeMount() {
+    this.deck = this.createDeck();
+    this.playerCard = new Array(52).fill(false);
   },
   methods: {
-    createDeck: function () {
+    startNewGame() {
+      for (let i = 0; i < 2; i++) {
+        this.playerHand.push(this.drawCard());
+        this.kruperHand.push(this.drawCard());
+      }
+      this.playerPoints = this.countPoints(this.playerHand);
+      this.krupierPoints = this.countPoints(this.krupierHand);
+    },
+    createDeck() {
       const symbols = ["C", "D", "H", "S"];
       const mark = [
         "2",
@@ -99,11 +112,33 @@ export default {
           pool.push(`${m}${s}`);
         });
       });
-      console.log(pool);
-      pool = this.deck;
+      this.deck = pool;
+      console.log(this.deck);
     },
-    drawCard() {},
-    countPoints() {},
+    drawCard() {
+      do {
+        var cardIndex = Math.floor(Math.random() * 52);
+      } while (this.playedCard[cardIndex]);
+      var card = this.deck[cardIndex];
+      this.cardSwitch[cardIndex] = true;
+      console.log(card);
+      return card;
+    },
+    countPoints(hand) {
+      let value = 0;
+      hand.map((e) => {
+        let val = e.slice(0, -1);
+        if (Number.isNaN(parseInt(val)) && val == "A") {
+          val = 11;
+        } else if (Number.isNaN(parseInt(val))) {
+          val = 10;
+        } else {
+          val = parseInt(val);
+        }
+        value += val;
+      });
+      return value;
+    },
     check() {},
   },
 };
