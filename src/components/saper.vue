@@ -39,7 +39,30 @@
 
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Kurnik 3.0 </v-toolbar-title>
+      <v-toolbar-title
+        >Kurnik 3.0
+
+        <v-btn style="margin-left: 500px;" color="black" dark large to="/">
+          <!-- <router-link to="/blackjack">ELO</router-link>
+              <router-view /> -->
+          Start
+        </v-btn>
+        <v-btn style="margin-left: 10px;" color="black" dark large to="/">
+          <!-- <router-link to="/blackjack">ELO</router-link>
+              <router-view /> -->
+          Aktualnosci
+        </v-btn>
+        <v-btn style="margin-left: 10px;" color="black" dark large to="/">
+          <!-- <router-link to="/blackjack">ELO</router-link>
+              <router-view /> -->
+          Informacje
+        </v-btn>
+        <v-btn style="margin-left: 10px;" color="black" dark large to="/">
+          <!-- <router-link to="/blackjack">ELO</router-link>
+              <router-view /> -->
+          Kontakt
+        </v-btn>
+      </v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -167,12 +190,7 @@
                 >
                   <center>{{ item.showOtherBombs }}{{ item.check }}</center>
                 </div>
-                <div
-                  :class="{
-                    emptyDiv2: boardWidth >= 11,
-                    emptyDiv: boardWidth < 11,
-                  }"
-                ></div>
+                <div class="emptyDiv"></div>
               </div>
             </div>
             <div v-if="!startGame"></div>
@@ -375,7 +393,7 @@ export default {
     isBomb(bomb, item) {
       //this.board[item.x][item.y + 1].clicked = true;
       if (this.gameOver == false) {
-        if (item.clicked == false) {
+        if (item.clicked == false && item.check == false) {
           this.firstLoop++;
           console.log("dziwka");
 
@@ -611,10 +629,7 @@ export default {
   width: 50px;
   height: 50px;
 }
-.emptyDiv {
-  width: 80px;
-  height: 80px;
-}
+
 .active {
   background-color: green;
   border: solid;
@@ -650,9 +665,12 @@ export default {
   white-space: nowrap;
 }
 .divs {
+  width: 50px !important;
+  height: 50px !important;
   background-color: rgb(36, 36, 36);
   clear: both;
-
+  font-size: 35px !important;
+  padding: 0px !important;
   /* margin: 1px; */
   color: black;
   border-style: solid;

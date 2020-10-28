@@ -30,20 +30,28 @@
       <v-main>
         <div class="mainContainer">
           <h1>Podaj nazwe uzytkownika:</h1>
-
-          <div>
-            <v-text-field
-              v-model="name"
-              label="Twoja Nazwa"
-              hide-details="auto"
-            ></v-text-field>
-          </div>
+          <v-row>
+            <v-col cols="12" sm="13">
+              <v-text-field
+                v-model="name"
+                :rules="rules"
+                counter="15"
+                hint="Maksymalna ilosc znakow: 15"
+                label="Twoja nazwa uzytkownika"
+              ></v-text-field>
+            </v-col>
+          </v-row>
           <br />
           <h1>Wybierz Gre!</h1>
 
           <div class="browseGames">
             <p>Saper</p>
+            <img
+              style="width:238px; border-radius: 25px;"
+              src="../assets/miniatury/bomba2.png"
+            />
             <v-btn
+              v-if="name && name.length < 16"
               class="button"
               @click="setName"
               color="blue"
@@ -56,7 +64,15 @@
           </div>
           <div class="browseGames">
             <p>BlackJack</p>
-            <v-btn class="button" color="blue" dark large to="/blackJack">
+            <img style="width:218px" src="../assets/miniatury/blackjack.png" />
+            <v-btn
+              v-if="name && name.length < 16"
+              class="button"
+              color="blue"
+              dark
+              large
+              to="/blackJack"
+            >
               <!-- <router-link to="/blackjack">ELO</router-link>
               <router-view /> -->
               Graj!
@@ -74,6 +90,9 @@ export default {
 
   data() {
     return {
+      title: " ",
+      description: "California is a state in the western United States",
+      rules: [(v) => v.length <= 15 || "Przekroczono 15 znakow!"],
       drawer: null,
       user: "",
       name: "",
@@ -106,9 +125,9 @@ export default {
   font-size: 40px;
   background-color: grey;
 }
-.browseGames button {
+.button {
   font-family: "Comic Neue", cursive;
-  margin-top: 430px;
+  margin-top: 20px;
 }
 input {
   font-family: "Comic Neue", cursive;
