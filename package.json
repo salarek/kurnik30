@@ -15,6 +15,7 @@
     "socket.io-client": "^2.3.1",
     "vue": "^2.6.11",
     "vue-chat-scroll": "^1.4.0",
+    "vue-music": "^1.0.9",
     "vue-router": "^3.2.0",
     "vuetify": "^2.2.11"
   },
