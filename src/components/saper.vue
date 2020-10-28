@@ -1,7 +1,11 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer width="25%" v-model="drawer" app clipped>
-      <div class="punktacja"><center>Punktacja</center></div>
+      <div class="punktacja"><center>Punktacja</center>
+       <div v-for="all in allUsers" :key="all">
+        {{all}}
+        </div>
+      </div>
       <div id="czat" class="czat">
         <center>Siemaneczko!</center>
         <div v-for="msgg in messages" :key="msgg">
@@ -49,10 +53,10 @@
             <v-card-text style="height: 220px">
               <v-radio-group v-model="difficulty2" column>
                 <v-radio label="Latwy" value="30"></v-radio>
-                <v-radio label="Sredni" value="20"></v-radio>
-                <v-radio label="Trudny" value="10"></v-radio>
+                <v-radio label="Sredni" value="17"></v-radio>
+                <v-radio label="Trudny" value="8"></v-radio>
                 <v-radio label="Bardzo trudny" value="5"></v-radio>
-                <v-radio label="Niemozliwy" value="3"></v-radio>
+                <v-radio label="Niemozliwy" value="2"></v-radio>
               </v-radio-group>
             </v-card-text>
             <v-divider></v-divider>
@@ -81,9 +85,12 @@
             <h1>
               <div
                 style="
+                background-color: black;
+                position: fixed;
                   color: white;
                   width: auto;
-                  margin-top: 25px;
+                  right: 50px;
+                  top: 100px;
                   display: inline-block;
                 "
               >
@@ -105,7 +112,7 @@
               style="
                 color: white;
                 width: auto;
-
+                margin-top: 40px;
                 display: inline-block;
               "
               @click="setBoard"
@@ -173,20 +180,35 @@ export default {
     user: "",
     firstLoop: 1,
     blockedGame: false,
+    gameOver: false,
     currentUser: "",
     drawer: null,
     boardWidth: 20,
     boardWidth2: 20,
+    allUsers: {},
+    points: 0,
     board: [],
     startGame: false,
     messages: [],
   }),
   mounted() {
+    this.socket.on("allUsers", (users)=>{
+      this.allUsers = users;
+      
+    });
+    this.socket.on("settingsRec", ( boardWidthR, difficultyR, startGameR)=>{
+      this.startGame = startGameR;
+      this.difficulty = difficultyR;
+      this.boardWidth = boardWidthR;
+    });
     this.socket.on("recmsg", (message) => {
       console.log("heloo");
       if (message) {
         this.messages.push(message);
       }
+    });
+    this.socket.on("gameOverRec", (msg) => {
+     this.gameOver = msg;
     });
   },
   methods: {
@@ -199,11 +221,12 @@ export default {
         this.boardWidth2 = 4;
         //alert("za duza tablica");
       }
-
+      
       this.boardWidth = this.boardWidth2;
       this.dialog = false;
       this.difficulty = this.difficulty2;
       this.startGame = !this.startGame;
+      this.socket.emit("sendSettings", this.boardWidth, this.difficulty, this.startGame);
     },
     sendMessage() {
       console.log(this.msg);
@@ -214,12 +237,14 @@ export default {
 
       this.socket.emit("msg", formMSG);
     },
-    handler: function (item) {
+    handler: function(item) {
       this.startGame = !this.startGame;
       this.startGame = !this.startGame;
       item.check == "x" ? (item.check = "") : (item.check = "x");
     },
     setBoard() {
+      this.gameOver = false;
+       this.socket.emit("gameOver", this.gameOver);
       console.log(this.boardWidth);
       console.log(this.difficulty);
       this.startGame = !this.startGame;
@@ -293,6 +318,7 @@ export default {
       this.socket.emit("plansza", this.board);
     },
     isBomb(bomb, item) {
+      if(this.gameOver==false){
       if (item.check == false) {
         this.firstLoop++;
         console.log("dziwka");
@@ -308,7 +334,17 @@ export default {
             item.showOtherBombs = item.otherBombs;
           }
           if (bomb == 1) {
+            this.gameOver = true;
             item.bombActive = true;
+            let formMSG = {
+              username: "BOT: ",
+              mess: "KONIEC GRY! Przegral gracz: "+ this.$route.params.user,
+            };
+            this.points++;
+            this.socket.emit("sendPoints",this.points,this.$route.params.user )
+
+            this.socket.emit("msg", formMSG);
+            this.socket.emit("gameOver", this.gameOver);
           } else {
             item.clicked = true;
           }
@@ -575,11 +611,12 @@ export default {
           this.blockedGame = !this.blockedGame;
         }
       }
+    }
     },
   },
   created() {
     this.$vuetify.theme.dark = true;
-    this.socket = io("http://localhost:3000");
+    this.socket = io("http://192.168.8.102:3000");
 
     this.socket.emit("userInfo", this.$route.params.user);
   },
@@ -662,7 +699,7 @@ export default {
   color: black;
   width: 100%;
   height: 50%;
-  background-color: rgb(160, 160, 160);
+  background-color: rgb(233, 233, 233);
   font-size: 20px;
   overflow-y: scroll;
 }
@@ -673,12 +710,13 @@ export default {
   float: left;
   width: 100%;
   height: 15%;
-  background-color: rgb(58, 58, 58);
+  background-color: rgb(68, 68, 68);
+  overflow-y: scroll;
 }
 .inputGame {
   color: black !important;
   margin-right: 20px;
-  background: rgb(173, 173, 173);
+  background: rgb(255, 255, 255);
   width: 56%;
 
   padding: 20px;
@@ -688,7 +726,7 @@ export default {
 .punktacja {
   width: 100%;
   height: 35%;
-  background-color: grey;
+  background-color: rgb(68, 68, 68);
   font-size: 20px;
   float: left;
   overflow-y: scroll;

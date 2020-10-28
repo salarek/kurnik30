@@ -3,7 +3,7 @@ const users = [];
 var i = 0;
 var d = 0;
 function joinUser(id, username, ) {
-  const user = { id, username };
+  const user = { id, username, points: 0 };
   console.log("dodaje do tablicy ", username);
     users.push(user);
 
@@ -13,9 +13,13 @@ function getCurrentUser(id ) {
  
    return users.find((user) => user.id === id);
 }
-function getRoomUsers(room) {
- 
-  return users.filter((user) => user.room === room);
+function getRoomUsers() {
+  var allUsernames = [];
+  for(let i = 0; i< users.length;i++){
+    allUsernames[i] = users[i].username + " : " +users[i].points;
+    
+  }
+  return allUsernames;
 }
 
 function userLeave(id) {
@@ -57,6 +61,9 @@ function getNextSocketUser() {
 
   
 }
+function addPointsToUser(pointsR,userR){
+  users.find((user) => user.username === userR).points= pointsR;
+}
 
 
 module.exports = {
@@ -66,4 +73,5 @@ module.exports = {
   userLeave,
   getNextUser,
   getNextSocketUser,
+  addPointsToUser,
 };
