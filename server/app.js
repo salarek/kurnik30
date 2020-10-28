@@ -2,11 +2,12 @@ const Express = require("express");
 const { Socket } = require("socket.io-client");
 const Http = require("http").Server(Express);
 const Socketio = require("socket.io")(Http);
+const PORT = process.env.PORT || 3000;
 const {
   joinUser,
   // getCurrentUser,
   addPointsToUser,
-   getRoomUsers,
+  getRoomUsers,
   userLeave,
   getNextUser,
   // getNextSocketUser,
@@ -17,10 +18,10 @@ Socketio.on("connection", (socket) => {
     console.log(user);
     joinUser(socket.id, user);
     let users = getRoomUsers();
-    console.log(users)
+    console.log(users);
     Socketio.emit("allUsers", users);
   });
- 
+
   socket.on("plansza", (board) => {
     socket.broadcast.emit("planszaBroadcast", board);
   });
@@ -30,31 +31,29 @@ Socketio.on("connection", (socket) => {
     Socketio.emit("queUser", drawer);
   });
   socket.on("gameOver", (gameOver) => {
-   
     Socketio.emit("gameOverRec", gameOver);
   });
-  
 
   socket.on("msg", (msg) => {
     console.log(msg);
     Socketio.emit("recmsg", msg);
   });
-  socket.on("sendSettings", (boardWidth, difficulty, startGame)=>{
+  socket.on("sendSettings", (boardWidth, difficulty, startGame) => {
     console.log(difficulty);
     socket.broadcast.emit("settingsRec", boardWidth, difficulty, startGame);
   });
-  socket.on("sendPoints", (points, username)=>{
+  socket.on("sendPoints", (points, username) => {
     addPointsToUser(points, username);
     let users = getRoomUsers();
-    console.log(users)
-    Socketio.emit("allUsers", users,)
-  })
+    console.log(users);
+    Socketio.emit("allUsers", users);
+  });
 
   socket.on("disconnect", () => {
     userLeave(socket.id);
   });
 });
 
-Http.listen(3000, () => {
-  console.log("Listening at port :3000 ...");
+Http.listen(PORT, () => {
+  console.log(`Listening at port ${PORT} ...`);
 });
