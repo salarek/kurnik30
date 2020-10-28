@@ -155,9 +155,9 @@
                 <div
                   :class="{
                     active: item.clicked,
-                    noactive: !item.clicked && boardWidth < 11,
+                    //noactive: !item.clicked && boardWidth < 1,
                     bombactive: item.bombActive,
-                    smalldivs: boardWidth >= 11,
+                    //smalldivs: !item.clicked, //boardWidth >= 11,
                   }"
                   @click="isBomb(item.bomb, item)"
                   @contextmenu.prevent="handler(item)"
@@ -619,18 +619,18 @@ export default {
   background-color: green;
   border: solid;
 }
-.noactive {
+/* .noactive {
   background-color: rgb(66, 66, 66);
   border: solid;
   font-size: 25px !important;
   padding-right: 35px !important;
   width: 80px !important;
   height: 80px !important;
-}
+} */
 .bombactive {
   background-color: red;
 }
-.smalldivs {
+/* .smalldivs {
   font-size: 25px !important;
   display: flex !important;
   padding-left: 15px !important;
@@ -638,7 +638,7 @@ export default {
   background-color: rgb(66, 66, 66);
   width: 50px !important;
   height: 50px !important;
-}
+} */
 .board {
   float: left;
   width: 98%;
@@ -650,7 +650,7 @@ export default {
   white-space: nowrap;
 }
 .divs {
-  /* background-color: white; */
+  background-color: rgb(36, 36, 36);
   clear: both;
 
   /* margin: 1px; */
