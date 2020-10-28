@@ -22,7 +22,6 @@
     </v-navigation-drawer>
 
     <v-app-bar app clipped-left>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Kurnik 3.0</v-toolbar-title>
     </v-app-bar>
 
@@ -77,14 +76,14 @@ export default {
     };
   },
   beforeMount() {
-    this.deck = this.createDeck();
+    this.createDeck();
     this.playerCard = new Array(52).fill(false);
   },
   methods: {
     startNewGame() {
       for (let i = 0; i < 2; i++) {
         this.playerHand.push(this.drawCard());
-        this.kruperHand.push(this.drawCard());
+        this.krupierHand.push(this.drawCard());
       }
       this.playerPoints = this.countPoints(this.playerHand);
       this.krupierPoints = this.countPoints(this.krupierHand);
@@ -106,21 +105,18 @@ export default {
         "K",
         "A",
       ];
-      var pool = [];
       mark.map((m) => {
         symbols.map((s) => {
-          pool.push(`${m}${s}`);
+          this.deck.push(`${m}${s}`);
         });
       });
-      this.deck = pool;
-      console.log(this.deck);
     },
     drawCard() {
       do {
         var cardIndex = Math.floor(Math.random() * 52);
       } while (this.playedCard[cardIndex]);
-      var card = this.deck[cardIndex];
-      this.cardSwitch[cardIndex] = true;
+      let card = this.deck[cardIndex];
+      this.playedCard[cardIndex] = true;
       console.log(card);
       return card;
     },
