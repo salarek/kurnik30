@@ -2,14 +2,16 @@
   <v-app id="inspire">
     <v-navigation-drawer width="25%" v-model="drawer" app clipped>
       <div class="punktacja"><center>Punktacja</center>
-       <div v-for="all in allUsers" :key="all">
+      <div class = "punktacjaContent">
+       <div v-for="all in allUsers" :key="all.msg">
         {{all}}
         </div>
       </div>
-      <div id="czat" class="czat">
+      </div>
+      <div id="czat" class="czat"  v-chat-scroll>
         <center>Siemaneczko!</center>
-        <div v-for="msgg in messages" :key="msgg">
-          <div style="color: green; float: left; margin-right: 12px">
+        <div v-for="msgg in messages" :key="msgg.msg" >
+          <div class = "chatFormat">
             <b>{{ msgg.username }}</b>
           </div>
           {{ msgg.mess }}
@@ -169,8 +171,13 @@
 
 <script>
 import io from "socket.io-client";
+import $ from 'jquery'
+import Vue from 'vue'
+import VueChatScroll from 'vue-chat-scroll'
+Vue.use(VueChatScroll)
 export default {
   name: "saper",
+
 
   data: () => ({
     difficulty: 9,
@@ -179,6 +186,7 @@ export default {
     msg: "",
     user: "",
     firstLoop: 1,
+    chatColor: "",
     blockedGame: false,
     gameOver: false,
     currentUser: "",
@@ -202,9 +210,20 @@ export default {
       this.boardWidth = boardWidthR;
     });
     this.socket.on("recmsg", (message) => {
+       this.chatColor = "#";
+    var randomHex = "123456ABCDEF";  
+    for(var i = 0; i<6;i++){
+        this.chatColor+= randomHex[Math.floor(Math.random()*10)]
+    }
+   
+    
+    console.log(this.chatColor);
+     $(".chatFormat").css("color", this.chatColor);
       console.log("heloo");
       if (message) {
+        $(".chatFormat").css("color", this.chatColor);
         this.messages.push(message);
+        $(".chatFormat").css("color", this.chatColor);
       }
     });
     this.socket.on("gameOverRec", (msg) => {
@@ -228,6 +247,7 @@ export default {
       this.startGame = !this.startGame;
       this.socket.emit("sendSettings", this.boardWidth, this.difficulty, this.startGame);
     },
+    
     sendMessage() {
       console.log(this.msg);
       let formMSG = {
@@ -615,6 +635,8 @@ export default {
     },
   },
   created() {
+    
+    
     this.$vuetify.theme.dark = true;
     this.socket = io("http://192.168.8.102:3000");
 
@@ -623,6 +645,9 @@ export default {
 };
 </script>
 <style>
+.punktacjaContent{
+  margin: 20px;
+}
 .dashBoard {
   width: 100%;
 }
@@ -722,6 +747,11 @@ export default {
   padding: 20px;
   height: 0px;
   font-size: 100%;
+}
+.chatFormat{
+  /* color: chatColor; */
+   float: left; 
+   margin-right: 12px;
 }
 .punktacja {
   width: 100%;
