@@ -1,8 +1,10 @@
-const Express = require("express");
-const { Socket } = require("socket.io-client");
-const Http = require("http").Server(Express);
-const Socketio = require("socket.io")(Http);
 const PORT = process.env.PORT || 3000;
+const INDEX = "/index.html";
+const express = require("express");
+const socketIO = require("socket.io");
+const server = express()
+  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
 const {
   joinUser,
   // getCurrentUser,
@@ -12,6 +14,7 @@ const {
   getNextUser,
   // getNextSocketUser,
 } = require("./utils/users");
+const Socketio = socketIO(server);
 
 Socketio.on("connection", (socket) => {
   socket.on("userInfo", (user) => {
@@ -52,8 +55,4 @@ Socketio.on("connection", (socket) => {
   socket.on("disconnect", () => {
     userLeave(socket.id);
   });
-});
-
-Http.listen(PORT, () => {
-  console.log(`Listening at port ${PORT} ...`);
 });
