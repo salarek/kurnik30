@@ -28,6 +28,8 @@
             placeholder="Wpisz"
             required
             autocomplete="off"
+            @keyup.enter="sendMessage()"
+            
           />
           <v-btn color="blue" @click="sendMessage()">send</v-btn>
         </form>
@@ -87,7 +89,7 @@
             <h1>
               <div
                 style="
-                background-color: black;
+                
                 position: fixed;
                   color: white;
                   width: auto;
@@ -177,15 +179,13 @@ import VueChatScroll from 'vue-chat-scroll'
 Vue.use(VueChatScroll)
 export default {
   name: "saper",
-
-
   data: () => ({
     difficulty: 9,
     difficulty2: "",
     dialog: false,
     msg: "",
     user: "",
-    firstLoop: 1,
+    firstLoop: 0,
     chatColor: "",
     blockedGame: false,
     gameOver: false,
@@ -250,12 +250,15 @@ export default {
     
     sendMessage() {
       console.log(this.msg);
+      if(this.msg){
       let formMSG = {
         username: this.$route.params.user + " : ",
         mess: this.msg,
       };
+      this.msg = "";
 
       this.socket.emit("msg", formMSG);
+      }
     },
     handler: function(item) {
       this.startGame = !this.startGame;
@@ -345,7 +348,7 @@ export default {
 
         console.log(this.currentUser);
         console.log(this.firstLoop);
-        if (this.currentUser == this.$route.params.user || this.firstLoop < 3) {
+        if (this.currentUser == this.$route.params.user || this.firstLoop < 2) {
           this.socket.emit("QUE", "xd");
           //wywala za tabilces
           this.startGame = !this.startGame;

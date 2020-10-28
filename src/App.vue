@@ -6,6 +6,7 @@
 </template>
 
 <style>
+
 .mainContainer {
   margin: 40px;
 }
