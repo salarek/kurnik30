@@ -607,12 +607,12 @@ export default {
     },
   },
   created() {
-    const PORT = process.env.PORT || 3000;
+    // const PORT = process.env.PORT || 3000;
     this.player.src = require("./audio/trauma.mp3");
     this.player.volume = 0.5;
-    this.player.play();
+    // this.player.play();
     this.$vuetify.theme.dark = true;
-    this.socket = io(`https://kurnik30.herokuapp.com:${PORT}`);
+    this.socket = io("http://192.168.8.102:3000");
 
     this.socket.emit("userInfo", this.$route.params.user);
   },
