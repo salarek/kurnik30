@@ -1,10 +1,11 @@
-const PORT = process.env.PORT || 3000;
-const INDEX = "/index.html";
+const path = require("path");
+const http = require("http");
 const express = require("express");
-const socketIO = require("socket.io");
-const server = express()
-  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+const socketio = require("socket.io");
+
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
 const {
   joinUser,
   // getCurrentUser,
@@ -14,15 +15,14 @@ const {
   getNextUser,
   // getNextSocketUser,
 } = require("./utils/users");
-const Socketio = socketIO(server);
 
-Socketio.on("connection", (socket) => {
+io.on("connection", (socket) => {
   socket.on("userInfo", (user) => {
     console.log(user);
     joinUser(socket.id, user);
     let users = getRoomUsers();
     console.log(users);
-    Socketio.emit("allUsers", users);
+    io.emit("allUsers", users);
   });
 
   socket.on("plansza", (board) => {
@@ -31,15 +31,15 @@ Socketio.on("connection", (socket) => {
   socket.on("QUE", () => {
     let drawer = getNextUser();
     console.log(drawer);
-    Socketio.emit("queUser", drawer);
+    io.emit("queUser", drawer);
   });
   socket.on("gameOver", (gameOver) => {
-    Socketio.emit("gameOverRec", gameOver);
+    io.emit("gameOverRec", gameOver);
   });
 
   socket.on("msg", (msg) => {
     console.log(msg);
-    Socketio.emit("recmsg", msg);
+    io.emit("recmsg", msg);
   });
   socket.on("sendSettings", (boardWidth, difficulty, startGame) => {
     console.log(difficulty);
@@ -49,10 +49,13 @@ Socketio.on("connection", (socket) => {
     addPointsToUser(points, username);
     let users = getRoomUsers();
     console.log(users);
-    Socketio.emit("allUsers", users);
+    io.emit("allUsers", users);
   });
 
   socket.on("disconnect", () => {
     userLeave(socket.id);
   });
 });
+app.use(express.static(path.join(__dirname, "dist")));
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => console.log("server nasluchuje"));
