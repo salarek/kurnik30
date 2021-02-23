@@ -214,6 +214,7 @@ Vue.use(VueChatScroll);
 export default {
   name: "saper",
   data: () => ({
+    game: "saper",
     player: new Audio(),
 
     difficulty: 9,
@@ -229,6 +230,7 @@ export default {
     drawer: null,
     boardWidth: 20,
     boardWidth2: 20,
+
     allUsers: {},
     points: 0,
     board: [],
@@ -306,7 +308,7 @@ export default {
         };
         this.msg = "";
 
-        this.socket.emit("msg", formMSG);
+        this.socket.emit("Sapermsg", formMSG);
       }
     },
     handler: function(item) {
@@ -316,7 +318,7 @@ export default {
     },
     setBoard() {
       this.gameOver = false;
-      this.socket.emit("gameOver", this.gameOver);
+      this.socket.emit("SapergameOver", this.gameOver);
       console.log(this.boardWidth);
       console.log(this.difficulty);
       this.startGame = !this.startGame;
@@ -388,9 +390,10 @@ export default {
           }
         }
       }
-      this.socket.emit("plansza", this.board);
+      this.socket.emit("Saperplansza", this.board);
     },
     isBomb(bomb, item) {
+      //$(".divs").css("background-color", "red");
       //this.board[item.x][item.y + 1].clicked = true;
       if (this.gameOver == false) {
         if (item.clicked == false && item.check == false) {
@@ -403,7 +406,7 @@ export default {
             this.currentUser == this.$route.params.user ||
             this.firstLoop < 2
           ) {
-            this.socket.emit("QUE", "xd");
+            this.socket.emit("SaperQUE", "xd");
             //wywala za tabilces
             this.startGame = !this.startGame;
             this.startGame = !this.startGame;
@@ -424,8 +427,8 @@ export default {
                 this.$route.params.user
               );
 
-              this.socket.emit("msg", formMSG);
-              this.socket.emit("gameOver", this.gameOver);
+              this.socket.emit("Sapermsg", formMSG);
+              this.socket.emit("SapergameOver", this.gameOver);
             } else {
               item.clicked = true;
             }
@@ -599,7 +602,7 @@ export default {
                 }
               }
             }
-            this.socket.emit("plansza", this.board);
+            this.socket.emit("Saperplansza", this.board);
             this.blockedGame = !this.blockedGame;
           }
         }
@@ -610,12 +613,12 @@ export default {
     //const PORT = process.env.PORT || 3000;
     this.player.src = require("./audio/trauma.mp3");
     this.player.volume = 0.5;
-    // this.player.play();
+    //this.player.play();
     this.$vuetify.theme.dark = true;
     //this.socket = io("https://kurnik30.herokuapp.com:");
-    this.socket = io("https://localhost:3000");
+    this.socket = io("http://localhost:3000");
 
-    this.socket.emit("userInfo", this.$route.params.user);
+    this.socket.emit("userInfo", this.$route.params.user, this.game);
   },
 };
 </script>
