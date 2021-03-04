@@ -63,6 +63,24 @@
             </v-btn>
           </div>
           <div class="browseGames">
+            <p>Dotworld</p>
+            <img
+              style="width:238px; border-radius: 25px;"
+              src="../assets/miniatury/bomba2.png"
+            />
+            <v-btn
+              v-if="name && name.length < 16"
+              class="button"
+              @click="setName"
+              color="blue"
+              dark
+              large
+              :to="`/dotworld/${name}`"
+            >
+              Graj!
+            </v-btn>
+          </div>
+          <div class="browseGames">
             <p>BlackJack</p>
             <img style="width:218px" src="../assets/miniatury/blackjack.png" />
             <v-btn

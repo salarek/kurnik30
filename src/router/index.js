@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import saper from "../views/saperView.vue";
 import blackJack from "../views/blackJackView.vue";
+import dotworld from "../views/dotworldView.vue";
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,12 @@ const routes = [
     path: "/blackJack",
     name: "blackJackView",
     component: blackJack,
+  },
+  {
+    path: "/dotworld/:user",
+    name: "dotworldView",
+    component: dotworld,
+    props: true,
   },
   {
     path: "/about",
