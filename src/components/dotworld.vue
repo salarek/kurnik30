@@ -96,10 +96,6 @@
             <v-card-text style="height: 220px">
               <v-radio-group v-model="difficulty2" column>
                 <v-radio label="Latwy" value="30"></v-radio>
-                <v-radio label="Sredni" value="17"></v-radio>
-                <v-radio label="Trudny" value="8"></v-radio>
-                <v-radio label="Bardzo trudny" value="5"></v-radio>
-                <v-radio label="Niemozliwy" value="2"></v-radio>
               </v-radio-group>
             </v-card-text>
             <v-divider></v-divider>
@@ -184,10 +180,19 @@ import Vue from "vue";
 import VueChatScroll from "vue-chat-scroll";
 Vue.use(VueChatScroll);
 export default {
-  name: "saper",
+  name: "dotworld",
   data: () => ({
-    game: "saper",
+    game: "dotworld",
     player: new Audio(),
+    dialog: false,
+    drawer: null,
+    msg: "",
+    user: "",
+    chatColor: "",
+    allUsers: {},
+    points: 0,
+    play: true,
+    messages: [],
   }),
 };
 </script>
