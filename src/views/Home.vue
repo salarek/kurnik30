@@ -47,7 +47,7 @@
           <div class="browseGames">
             <p>Saper</p>
             <img
-              style="width:238px; border-radius: 25px;"
+              style="width: 238px; border-radius: 25px"
               src="../assets/miniatury/bomba2.png"
             />
             <v-btn
@@ -65,7 +65,7 @@
           <div class="browseGames">
             <p>Dotworld</p>
             <img
-              style="width:238px; border-radius: 25px;"
+              style="width: 238px; border-radius: 25px"
               src="../assets/miniatury/bomba2.png"
             />
             <v-btn
@@ -82,7 +82,7 @@
           </div>
           <div class="browseGames">
             <p>BlackJack</p>
-            <img style="width:218px" src="../assets/miniatury/blackjack.png" />
+            <img style="width: 218px" src="../assets/miniatury/blackjack.png" />
             <v-btn
               v-if="name && name.length < 16"
               class="button"
@@ -92,6 +92,22 @@
               to="/blackJack"
             >
               <!-- <router-link to="/blackjack">ELO</router-link>
+              <router-view /> -->
+              Graj!
+            </v-btn>
+          </div>
+          <div class="browseGames">
+            <p>gallery</p>
+            <img style="width: 218px" src="../assets/miniatury/bomba2.png" />
+            <v-btn
+              v-if="name && name.length < 16"
+              class="button"
+              color="blue"
+              dark
+              large
+              :to="`/gallery/${name}`"
+            >
+              <!-- <router-link to="/gallery">ELO</router-link>
               <router-view /> -->
               Graj!
             </v-btn>

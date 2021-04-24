@@ -42,22 +42,22 @@
       <v-toolbar-title
         >Kurnik 3.0
 
-        <v-btn style="margin-left: 500px;" color="black" dark large to="/">
+        <v-btn style="margin-left: 500px" color="black" dark large to="/">
           <!-- <router-link to="/blackjack">ELO</router-link>
               <router-view /> -->
           Start
         </v-btn>
-        <v-btn style="margin-left: 10px;" color="black" dark large to="/">
+        <v-btn style="margin-left: 10px" color="black" dark large to="/">
           <!-- <router-link to="/blackjack">ELO</router-link>
               <router-view /> -->
           Aktualnosci
         </v-btn>
-        <v-btn style="margin-left: 10px;" color="black" dark large to="/">
+        <v-btn style="margin-left: 10px" color="black" dark large to="/">
           <!-- <router-link to="/blackjack">ELO</router-link>
               <router-view /> -->
           Informacje
         </v-btn>
-        <v-btn style="margin-left: 10px;" color="black" dark large to="/">
+        <v-btn style="margin-left: 10px" color="black" dark large to="/">
           <!-- <router-link to="/blackjack">ELO</router-link>
               <router-view /> -->
           Kontakt
@@ -67,17 +67,17 @@
 
     <v-main>
       <v-btn
-        style="margin-top: 20px; width:20px; background-color: #121212"
+        style="margin-top: 20px; width: 20px; background-color: #121212"
         @click="stopPlaying()"
       >
         <img
           v-if="this.play == false"
-          style="width:50px; "
+          style="width: 50px"
           src="./PNG/musicoff.jpg"
         />
         <img
           v-if="this.play == true"
-          style="width:50px; "
+          style="width: 50px"
           src="./PNG/music.jpg"
         />
       </v-btn>
@@ -128,8 +128,7 @@
             <h1>
               <div
                 style="
-                
-                position: fixed;
+                  position: fixed;
                   color: white;
                   width: auto;
                   right: 50px;
@@ -192,7 +191,7 @@ export default {
   }),
 };
 </script>
-<style>
+<style scoped>
 .punktacjaContent {
   margin: 25px;
 }

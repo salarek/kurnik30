@@ -139,7 +139,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .active {
   background-color: green;
   border: solid;

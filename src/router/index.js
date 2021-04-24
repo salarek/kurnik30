@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import saper from "../views/saperView.vue";
 import blackJack from "../views/blackJackView.vue";
 import dotworld from "../views/dotworldView.vue";
+import gallery from "../views/galleryView.vue";
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,12 @@ const routes = [
     path: "/dotworld/:user",
     name: "dotworldView",
     component: dotworld,
+    props: true,
+  },
+  {
+    path: "/gallery/:user",
+    name: "galleryView",
+    component: gallery,
     props: true,
   },
   {
