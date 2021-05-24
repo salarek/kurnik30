@@ -5,6 +5,7 @@ import saper from "../views/saperView.vue";
 import blackJack from "../views/blackJackView.vue";
 import dotworld from "../views/dotworldView.vue";
 import gallery from "../views/galleryView.vue";
+import jzd from "../views/jzdView.vue";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,12 @@ const routes = [
     path: "/blackJack",
     name: "blackJackView",
     component: blackJack,
+  },
+  {
+    path: "/jzd/:user",
+    name: "jzdView",
+    component: jzd,
+    props: true,
   },
   {
     path: "/dotworld/:user",

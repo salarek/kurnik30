@@ -66,63 +66,63 @@ export default {
     images: [
       {
         id: 1,
-        image: "/img/2C.136dab43.png",
+        image: require("./PNG/2C.png"),
       },
       {
         id: 2,
-        image: "/img/2D.1451de5d.png",
+        image: require("./PNG/2D.png"),
       },
       {
         id: 3,
-        image: "/img/2C.136dab43.png",
+        image: require("./PNG/2C.png"),
       },
       {
         id: 2,
-        image: "/img/2D.1451de5d.png",
+        image: require("./PNG/2D.png"),
       },
       {
         id: 3,
-        image: "/img/2C.136dab43.png",
+        image: require("./PNG/2C.png"),
       },
       {
         id: 2,
-        image: "/img/2D.1451de5d.png",
+        image: require("./PNG/2D.png"),
       },
       {
         id: 3,
-        image: "/img/2C.136dab43.png",
+        image: require("./PNG/2C.png"),
       },
       {
         id: 2,
-        image: "/img/2D.1451de5d.png",
+        image: require("./PNG/2D.png"),
       },
       {
         id: 3,
-        image: "/img/2C.136dab43.png",
+        image: require("./PNG/2C.png"),
       },
       {
         id: 2,
-        image: "/img/2D.1451de5d.png",
+        image: require("./PNG/2D.png"),
       },
       {
         id: 3,
-        image: "/img/2C.136dab43.png",
+        image: require("./PNG/2C.png"),
       },
       {
         id: 2,
-        image: "/img/2D.1451de5d.png",
+        image: require("./PNG/2D.png"),
       },
       {
         id: 3,
-        image: "/img/2C.136dab43.png",
+        image: require("./PNG/2C.png"),
       },
       {
         id: 2,
-        image: "/img/2D.1451de5d.png",
+        image: require("./PNG/2D.png"),
       },
       {
         id: 3,
-        image: "/img/2C.136dab43.png",
+        image: require("./PNG/2C.png"),
       },
     ],
   }),

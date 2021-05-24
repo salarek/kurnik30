@@ -8,6 +8,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 const { joinUser, getRoomUsers, userLeave } = require("./utils/Users");
 const { handleSaperSockets } = require("./utils/saperSockets");
+const { handleJzdSockets } = require("./utils/jzdSockets");
 
 io.on("connection", (socket) => {
   socket.on("userInfo", (user, game) => {
@@ -19,7 +20,7 @@ io.on("connection", (socket) => {
   });
 
   handleSaperSockets(socket, io);
-
+  handleJzdSockets(socket, io);
   socket.on("disconnect", () => {
     userLeave(socket.id);
   });

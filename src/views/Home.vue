@@ -112,6 +112,22 @@
               Graj!
             </v-btn>
           </div>
+          <div class="browseGames">
+            <p>jzd</p>
+            <img style="width: 218px" src="../assets/miniatury/bomba2.png" />
+            <v-btn
+              v-if="name && name.length < 16"
+              class="button"
+              color="blue"
+              dark
+              large
+              :to="`/jzd/${name}`"
+            >
+              <!-- <router-link to="/jzd">ELO</router-link>
+              <router-view /> -->
+              Graj!
+            </v-btn>
+          </div>
         </div>
       </v-main>
     </v-app>
