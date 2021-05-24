@@ -14,7 +14,7 @@ io.on("connection", (socket) => {
   socket.on("userInfo", (user, game) => {
     console.log(user);
     joinUser(socket.id, user, game);
-    let users = getRoomUsers();
+    let users = getRoomUsers(game);
     console.log(users);
     io.emit("allUsers", users);
   });

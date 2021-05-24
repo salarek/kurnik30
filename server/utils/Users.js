@@ -8,10 +8,12 @@ function joinUser(id, username, game) {
 }
 
 function getRoomUsers(game) {
-  var allUsernames = [];
+  let allUsernames = [];
+  let countGameUsers=0;
   for (let i = 0; i < users.length; i++) {
-    if (users[i].game === game) {
-      allUsernames[i] = users[i].username + " : " + users[i].points;
+    if (users[i].game == game) {
+      allUsernames[countGameUsers] = users[i].username + " : " + users[i].points;
+      countGameUsers++;
     }
   }
   return allUsernames;

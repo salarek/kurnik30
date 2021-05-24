@@ -5,7 +5,7 @@ function handleJzdSockets(socket, io) {
     console.log(msg);
     io.emit("Jzdrecmsg", msg);
   });
-  socket.on("SapersendPoints", (points, username) => {
+  socket.on("JzdsendPoints", (points, username) => {
     addPointsToUser(points, username, "saper");
     let users = getRoomUsers("saper");
     console.log(users);

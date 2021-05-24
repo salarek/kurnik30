@@ -84,7 +84,7 @@ export default {
     chatColor: "",
   }),
   mounted() {
-    this.socket.on("JzdallUsers", (users) => {
+    this.socket.on("allUsers", (users) => {
       this.allUsers = users;
     });
 
