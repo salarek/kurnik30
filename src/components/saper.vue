@@ -42,7 +42,14 @@
       <v-toolbar-title
         >Kurnik 3.0
 
-        <v-btn style="margin-left: 500px" color="black" dark large to="/">
+        <v-btn
+          style="margin-left: 500px"
+          color="black"
+          dark
+          @click.native="reloadPage()"
+          large
+          to="/"
+        >
           <!-- <router-link to="/blackjack">ELO</router-link>
               <router-view /> -->
           Start
@@ -267,6 +274,9 @@ export default {
     });
   },
   methods: {
+    reloadPage() {
+      location.reload();
+    },
     stopPlaying() {
       if (this.play == true) {
         this.player.pause();
@@ -310,7 +320,7 @@ export default {
         this.socket.emit("Sapermsg", formMSG);
       }
     },
-    handler: function (item) {
+    handler: function(item) {
       this.startGame = !this.startGame;
       this.startGame = !this.startGame;
       item.check == "x" ? (item.check = "") : (item.check = "x");
