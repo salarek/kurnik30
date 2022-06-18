@@ -1,4 +1,9 @@
-const { addPointsToUser, getRoomUsers, getNextUser } = require("./Users");
+const {
+  addPointsToUser,
+  getRoomUsersWithPoints,
+  getNextUser,
+  setCurrentPlayingUser,
+} = require("./Users");
 
 function handleSaperSockets(socket, io) {
   socket.on("Saperplansza", (board) => {
@@ -23,9 +28,14 @@ function handleSaperSockets(socket, io) {
   });
   socket.on("SapersendPoints", (points, username) => {
     addPointsToUser(points, username, "saper");
-    let users = getRoomUsers("saper");
+    let users = getRoomUsersWithPoints("saper");
     console.log(users);
     io.emit("allUsers", users);
+  });
+  socket.on("SaperCurrentPlayingUser", (id) => {
+    const playingUser = setCurrentPlayingUser(id, "saper");
+    console.log("PLAYING USER", playingUser);
+    io.emit("queUser", playingUser);
   });
 }
 module.exports = {

@@ -326,6 +326,7 @@ export default {
       item.check == "x" ? (item.check = "") : (item.check = "x");
     },
     setBoard() {
+      this.socket.emit("SaperCurrentPlayingUser", this.socket.id, this.game);
       this.gameOver = false;
       this.socket.emit("SapergameOver", this.gameOver);
       console.log(this.boardWidth);
@@ -431,7 +432,7 @@ export default {
               };
               this.points++;
               this.socket.emit(
-                "sendPoints",
+                "SapersendPoints",
                 this.points,
                 this.$route.params.user
               );

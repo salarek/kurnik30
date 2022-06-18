@@ -6,7 +6,11 @@ const socketio = require("socket.io");
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-const { joinUser, getRoomUsers, userLeave } = require("./utils/Users");
+const {
+  joinUser,
+  getRoomUsersWithPoints,
+  userLeave,
+} = require("./utils/Users");
 const { handleSaperSockets } = require("./utils/saperSockets");
 const { handleJzdSockets } = require("./utils/jzdSockets");
 
@@ -14,7 +18,7 @@ io.on("connection", (socket) => {
   socket.on("userInfo", (user, game) => {
     console.log(user);
     joinUser(socket.id, user, game);
-    let users = getRoomUsers(game);
+    let users = getRoomUsersWithPoints(game);
     console.log(users);
     io.emit("allUsers", users);
   });
@@ -22,7 +26,8 @@ io.on("connection", (socket) => {
   handleSaperSockets(socket, io);
   handleJzdSockets(socket, io);
   socket.on("disconnect", () => {
-    userLeave(socket.id);
+    let users = getRoomUsersWithPoints(userLeave(socket.id));
+    io.emit("allUsers", users);
   });
 });
 app.use(express.static(path.join(__dirname, "dist")));

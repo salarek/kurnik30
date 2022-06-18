@@ -1,51 +1,94 @@
 const users = [];
-var i = 0;
-var d = 0;
+// var i = 0;
+
 function joinUser(id, username, game) {
-  const user = { id, username, points: 0, game };
-  console.log("dodaje do tablicy ", username);
+  const user = { id, username, points: 0, game, playing: false };
   users.push(user);
 }
-
-function getRoomUsers(game) {
-  let allUsernames = [];
-  let countGameUsers=0;
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].game == game) {
-      allUsernames[countGameUsers] = users[i].username + " : " + users[i].points;
-      countGameUsers++;
+function setCurrentPlayingUser(id, game) {
+  users.forEach((user) => {
+    if (user.game == game) {
+      user.playing = false;
     }
-  }
-  return allUsernames;
+  });
+  users.find((user) => user.id === id && user.game === game).playing = true;
+  const playingUser = users
+    .filter((user) => {
+      if (user.playing == true && user.game == game) {
+        return user;
+      }
+    })
+    .map((user) => {
+      return user.username;
+    });
+  return playingUser;
+}
+function getRoomUsersWithPoints(game) {
+  let roomUsers = users
+    .filter((user) => {
+      if (user.game == game) {
+        return user;
+      }
+    })
+    .map((user) => {
+      return user.username + " : " + user.points;
+    });
+  console.log("roomUsers", roomUsers);
+  return roomUsers;
+}
+function getRoomUsers(game) {
+  let roomUsers = users.filter((user) => {
+    if (user.game == game) {
+      return user;
+    }
+  });
+
+  console.log("roomUsers", roomUsers);
+  return roomUsers;
 }
 
 function userLeave(id) {
-  console.log("usuwam uzytkownika");
   const index = users.findIndex((user) => user.id === id);
   if (index !== -1) {
-    return users.splice(index, 1)[0];
+    const deletedUser = users[index];
+    users.splice(index, 1);
+    return deletedUser.game;
   }
 }
 
 function getNextUser(game) {
-  console.log(users);
+  const roomUsers = getRoomUsers(game);
 
-  for (let z = 0; i < users.length; z++) {
-    i++;
-    if (i == users.length) {
-      i = 0;
+  console.log(roomUsers);
+  let index = roomUsers.findIndex((user) => {
+    if (user.playing == true) {
+      return user;
     }
-    console.log(i);
-    if (users[i].game === game) {
-      break;
-    }
+  });
+  index = index + 1;
+  console.log("INDEX", index);
+  if (index >= roomUsers.length && index != -1) {
+    index = 0;
   }
+  setCurrentPlayingUser(roomUsers[index].id, game);
+  return `${roomUsers[index].username}`;
 
-  if (i === users.length || i >= users.length) {
-    i = 0;
-  }
+  // for (let z = 0; i < users.length; z++) {
+  //   i++;
+  //   if (i == users.length) {
+  //     i = 0;
+  //   }
+  //   console.log(i);
+  //   if (users[i].game === game) {
+  //     break;
+  //   }
+  // }
 
-  return `${users[i].username}`;
+  // if (i === users.length || i >= users.length) {
+  //   i = 0;
+  // }
+
+  // return `${users[i].username}`;
 }
 // function getNextSocketUser() {
 //   for (let z = 0; z < users.length; z++) {
@@ -70,8 +113,10 @@ function addPointsToUser(pointsR, userR, game) {
 
 module.exports = {
   joinUser,
+  getRoomUsersWithPoints,
   getRoomUsers,
   userLeave,
   getNextUser,
   addPointsToUser,
+  setCurrentPlayingUser,
 };

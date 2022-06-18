@@ -5,9 +5,12 @@ function handleJzdSockets(socket, io) {
     console.log(msg);
     io.emit("Jzdrecmsg", msg);
   });
+  socket.on("Jzdplansza", (board) => {
+    socket.broadcast.emit("JzdplanszaBroadcast", board);
+  });
   socket.on("JzdsendPoints", (points, username) => {
-    addPointsToUser(points, username, "saper");
-    let users = getRoomUsers("saper");
+    addPointsToUser(points, username, "jzd");
+    let users = getRoomUsers("jzd");
     console.log(users);
     io.emit("allUsers", users);
   });

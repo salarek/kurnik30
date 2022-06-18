@@ -57,19 +57,7 @@
     </v-app-bar>
 
     <v-main>
-      <div class="board" id="board">
-        <canvas
-          @mouseup="(drag = false), resetConnect()"
-          @mousedown="setStartPosition($event)"
-          @mousemove="moveLine($event)"
-          id="myCanvas"
-          style="background: blue"
-          ref="canvas"
-          :width="windowWidth"
-          :height="windowHeight"
-          >fdsfdsf</canvas
-        >
-      </div>
+      <div class="board"></div>
     </v-main>
 
     <v-footer app>
@@ -94,42 +82,8 @@ export default {
     msg: "",
     messages: [],
     chatColor: "",
-    drag: false,
-    startX: 0,
-    startY: 0,
-    x: 0,
-    y: 0,
-    windowHeight: 100,
-    windowWidth: 100,
-    connected: false,
-    canvas: null,
   }),
   mounted() {
-    this.socket.on("JzdplanszaBroadcast", (boardFromServer) => {
-      console.log("JESTEM WYWOLANY");
-      if (boardFromServer) {
-        let ctx = this.canvas;
-        ctx.beginPath();
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = 3;
-        ctx.moveTo(boardFromServer.x1, boardFromServer.y1);
-        ctx.lineTo(boardFromServer.x2, boardFromServer.y2);
-        ctx.stroke();
-        ctx.closePath();
-        console.log("boardformzerser", boardFromServer.x1, boardFromServer.x2);
-      }
-    });
-    var c = document.getElementById("myCanvas");
-    this.canvas = c.getContext("2d");
-    const board = document.getElementById("board");
-    if (board) {
-      const boardRectHeight = board.getBoundingClientRect().height;
-      const boardRectWidth = board.getBoundingClientRect().width;
-      console.log("HEIGHT", boardRectHeight);
-      this.windowHeight = boardRectHeight;
-      this.windowWidth = boardRectWidth;
-    }
-
     this.socket.on("allUsers", (users) => {
       this.allUsers = users;
     });
@@ -155,53 +109,6 @@ export default {
     // });
   },
   methods: {
-    resetConnect() {
-      if (!this.connected) {
-        this.posX = this.startX;
-        this.posY = this.startY;
-      }
-      this.drag = false;
-    },
-    endConnect(e) {
-      this.posX = e.clientX - e.offsetX + 100;
-      this.posY = e.clientY - e.offsetY + 10;
-      this.drag = false;
-      this.connected = true;
-    },
-    moveLine(e) {
-      if (this.drag == true) {
-        this.draw(e);
-      }
-    },
-    drawLine(x1, y1, x2, y2) {
-      let ctx = this.canvas;
-      let drawPositions = { x1: x1, y1: y1, x2: x2, y2: y2 };
-      this.socket.emit("Jzdplansza", drawPositions);
-      ctx.beginPath();
-      ctx.strokeStyle = "black";
-      ctx.lineWidth = 3;
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.stroke();
-      ctx.closePath();
-    },
-    draw(e) {
-      this.drawLine(this.x, this.y, e.offsetX, e.offsetY);
-      this.x = e.offsetX;
-      this.y = e.offsetY;
-    },
-    setStartPosition(e) {
-      this.connected = false;
-      this.drag = true;
-      console.log("pos", e.offsetX, e.offsetY);
-
-      this.startX = e.offsetX;
-      this.startY = e.offsetY;
-
-      // let dupa = document.querySelector("svg");
-      // dupa.style.zIndex = "1";
-    },
-
     sendMessage() {
       console.log(this.msg);
       if (this.msg) {
